@@ -3,124 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Date Invitation</title>
+  <title>Date Invitation 🌸</title>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #fde8ed; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-    .card { background: #ffffff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; max-width: 400px; width: 90%; }
-    .screen { display: none; }
-    .screen.active { display: block; }
-    h2 { color: #333; margin-bottom: 20px; font-size: 24px; }
-    .img-container { margin-bottom: 20px; }
-    .img-container img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; }
-    .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
-    button { background-color: #fca5a5; color: white; border: none; padding: 10px 24px; border-radius: 20px; font-size: 16px; font-weight: bold; cursor: pointer; }
-    button:hover { background-color: #f87171; }
-    #noBtn { background-color: #e5e7eb; color: #374151; position: relative; }
-    .input-group { margin: 15px 0; text-align: left; }
-    label { display: block; font-size: 14px; color: #6b7280; margin-bottom: 5px; }
-    input[type="date"], select { width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 10px; outline: none; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-    .grid-item { border: 1px solid #e5e7eb; border-radius: 12px; padding: 15px; cursor: pointer; }
-    .grid-item.selected { border-color: #f87171; background-color: #fff1f2; }
-    .grid-item span { display: block; font-size: 24px; margin-bottom: 5px; }
-    .ps-text { font-size: 12px; color: #9ca3af; margin-top: 15px; font-style: italic; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      padding: 35px 25px;
+      border-radius: 28px;
+      box-shadow: 0 20px 40px rgba(238, 156, 167, 0.25);
+      text-align: center;
+      max-width: 380px;
+      width: 100%;
+      animation: fadeIn 0.4s ease-out;
+    }
+    .screen {
+      display: none;
+    }
+    .screen.active {
+      display: block;
+    }
+    .emoji-badge {
+      font-size: 54px;
+      margin-bottom: 12px;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+    h2 {
+      color: #2d3748;
+      font-weight: 800;
+      font-size: 22px;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+    p.subtext {
+      color: #718096;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+      position: relative;
+    }
+    button {
+      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 16px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgba(255, 117, 140, 0.3);
+      transition: all 0.2s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px rgba(255, 117, 140, 0.4);
+    }
+    #noBtn {
+      background: #edf2f7;
+      color: #4a5568;
+      box-shadow: none;
+      position: relative;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .grid-item {
+      background: white;
+      border: 2px solid #edf2f7;
+      border-radius: 16px;
+      padding: 14px 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      color: #4a5568;
+      transition: all 0.2s ease;
+    }
+    .grid-item span {
+      display: block;
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+    .grid-item:hover, .grid-item.selected {
+      border-color: #ff758c;
+      background: #fff5f7;
+      color: #ff758c;
+      transform: scale(1.02);
+    }
+    .summary-box {
+      background: #fff5f7;
+      border: 1.5px dashed #ff758c;
+      border-radius: 18px;
+      padding: 18px;
+      margin: 20px 0;
+      text-align: left;
+    }
+    .summary-item {
+      font-size: 14px;
+      color: #4a5568;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .summary-item:last-child { margin-bottom: 0; }
+    .ps-text {
+      font-size: 12px;
+      color: #a0aec0;
+      margin-top: 16px;
+      font-style: italic;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
   </style>
 </head>
 <body>
+
   <div class="card">
+    
+    <!-- Screen 1: The Big Question -->
     <div id="screen1" class="screen active">
-      <div class="img-container">
-        <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=300&q=80" alt="Cute Dog">
-      </div>
-      <h2>Will you go on a date with me? 🌸</h2>
+      <div class="emoji-badge">🐶✨</div>
+      <h2>Are we officially going on this date?</h2>
+      <p class="subtext">No backsies allowed once you press Yes!</p>
       <div class="btn-group">
-        <button id="yesBtn">YES 💕</button>
+        <button id="yesBtn">HELL YES 💕</button>
         <button id="noBtn">NO 💔</button>
       </div>
     </div>
 
+    <!-- Screen 2: Reaction -->
     <div id="screen2" class="screen">
-      <h2>Wait... YOU ACTUALLY SAID YES?? 🥳</h2>
-      <p style="color: #6b7280; margin-bottom: 20px;">I was ready for you to say no 🥹</p>
-      <button onclick="nextScreen(3)">okay okay! 🎉</button>
+      <div class="emoji-badge">🥳🎉</div>
+      <h2>Yay! It's locked in!</h2>
+      <p class="subtext">Now let's pick what we're eating 👀</p>
+      <button onclick="nextScreen(3)">Let's pick vibe! 🚀</button>
     </div>
 
-    <div id="screen3" class="screen">
-      <h2>So... when are you free? 📅</h2>
-      <div class="input-group">
-        <label>Pick a Day 🗓️</label>
-        <input type="date" id="dateInput">
-      </div>
-      <div class="input-group">
-        <label>What Time? ⏰</label>
-        <select id="timeInput">
-          <option value="">Select a time...</option>
-          <option value="4:00 PM">4:00 PM</option>
-          <option value="5:00 PM">5:00 PM</option>
-          <option value="6:00 PM">6:00 PM</option>
-          <option value="7:00 PM">7:00 PM</option>
-          <option value="8:00 PM">8:00 PM</option>
-        </select>
-      </div>
-      <button style="width: 100%; margin-top: 10px;" onclick="saveDateTime()">set the date! 💕</button>
-    </div>
-
+    <!-- Screen 3: Food / Vibe -->
     <div id="screen4" class="screen">
-      <h2>What are we feeling? 🍽️✨</h2>
-      <p style="font-size: 12px; color: #6b7280;">pick your vibe</p>
+      <div class="emoji-badge">🍽️✨</div>
+      <h2>What vibe are we feeling?</h2>
+      <p class="subtext">Pick your favorite treat</p>
       <div class="grid">
-        <div class="grid-item" onclick="selectVibe(this, 'Pizza')"><span>🍕</span>Pizza</div>
-        <div class="grid-item" onclick="selectVibe(this, 'Sushi')"><span>🍣</span>Sushi</div>
-        <div class="grid-item" onclick="selectVibe(this, 'Burgers')"><span>🍔</span>Burgers</div>
-        <div class="grid-item" onclick="selectVibe(this, 'Pasta')"><span>🍝</span>Pasta</div>
-        <div class="grid-item" onclick="selectVibe(this, 'Tacos')"><span>🌮</span>Tacos</div>
-        <div class="grid-item" onclick="selectVibe(this, 'Ramen')"><span>🍜</span>Ramen</div>
+        <div class="grid-item" onclick="selectVibe(this, 'Pizza & Chill 🍕')"><span>🍕</span>Pizza</div>
+        <div class="grid-item" onclick="selectVibe(this, 'Sushi Date 🍣')"><span>🍣</span>Sushi</div>
+        <div class="grid-item" onclick="selectVibe(this, 'Burgers & Fries 🍔')"><span>🍔</span>Burgers</div>
+        <div class="grid-item" onclick="selectVibe(this, 'Pasta & Wine 🍝')"><span>🍝</span>Pasta</div>
+        <div class="grid-item" onclick="selectVibe(this, 'Tacos 🌮')"><span>🌮</span>Tacos</div>
+        <div class="grid-item" onclick="selectVibe(this, 'Dessert & Coffee ☕')"><span>☕</span>Coffee</div>
       </div>
-      <button style="width: 100%; margin-top: 20px;" onclick="nextScreen(5)">let's go! 🚀</button>
+      <button style="width: 100%; margin-top: 10px;" onclick="goToFinal()">Lock it in! 🔥</button>
     </div>
 
+    <!-- Screen 4: Final Confirmation -->
     <div id="screen5" class="screen">
-      <h2>Glad you didn't say no. Be ready! 🍒</h2>
-      <p id="summaryText" style="color: #4b5563; margin: 15px 0; font-weight: 500;"></p>
-      <button style="width: 100%;" onclick="alert('It\'s a date! ❤️')">ok I accept! 🥰</button>
-      <p class="ps-text">P.S. I made a website for you, no big deal 💕</p>
+      <div class="emoji-badge">💌✨</div>
+      <h2>See you very soon!</h2>
+      <p class="subtext">Here is your official date pass:</p>
+      
+      <div class="summary-box">
+        <div class="summary-item">📍 <strong>Plan:</strong> <span id="summaryVibe">Food</span></div>
+        <div class="summary-item">⏰ <strong>Status:</strong> Confirmed & Locked!</div>
+      </div>
+
+      <button style="width: 100%;" onclick="confetti({ particleCount: 150, spread: 80 })">Can't Wait! 🥰</button>
+      <p class="ps-text">P.S. Code crafted specially for you 💕</p>
     </div>
+
   </div>
 
   <script>
-    let selectedDate = '', selectedTime = '', selectedVibeText = 'Food';
+    let selectedVibeText = 'Food & Fun';
+
     function nextScreen(n) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById('screen' + n).classList.add('active');
+      const target = document.getElementById('screen' + n);
+      if(target) target.classList.add('active');
     }
+
     document.getElementById('yesBtn').addEventListener('click', () => {
-      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
       nextScreen(2);
     });
+
     const noBtn = document.getElementById('noBtn');
     noBtn.addEventListener('mouseover', () => {
-      const x = Math.random() * 140 - 70, y = Math.random() * 140 - 70;
+      const x = Math.random() * 160 - 80;
+      const y = Math.random() * 160 - 80;
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
     });
-    function saveDateTime() {
-      selectedDate = document.getElementById('dateInput').value;
-      selectedTime = document.getElementById('timeInput').value;
-      if (!selectedDate || !selectedTime) return alert('Pick date and time!');
-      nextScreen(4);
-    }
+
     function selectVibe(el, vibe) {
       document.querySelectorAll('.grid-item').forEach(i => i.classList.remove('selected'));
       el.classList.add('selected');
       selectedVibeText = vibe;
     }
-    const observer = new MutationObserver(() => {
-      if (document.getElementById('screen5').classList.contains('active')) {
-        document.getElementById('summaryText').innerText = `See you on ${selectedDate} at ${selectedTime} for ${selectedVibeText}!`;
-      }
-    });
-    observer.observe(document.getElementById('screen5'), { attributes: true, attributeFilter: ['class'] });
+
+    function goToFinal() {
+      document.getElementById('summaryVibe').innerText = selectedVibeText;
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen5').classList.add('active');
+      confetti({ particleCount: 100, spread: 70 });
+    }
   </script>
 </body>
 </html>
