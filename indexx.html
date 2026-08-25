@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vibe Check ⚡</title>
+  <title>Secret Vibe Check 🔒✨</title>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -22,12 +22,12 @@
       padding: 20px;
     }
     .card {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.8);
       padding: 35px 25px;
       border-radius: 28px;
-      box-shadow: 0 20px 40px rgba(161, 196, 253, 0.3);
+      box-shadow: 0 20px 40px rgba(161, 196, 253, 0.35);
       text-align: center;
       max-width: 380px;
       width: 100%;
@@ -55,7 +55,39 @@
     p.subtext {
       color: #64748b;
       font-size: 14px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+    }
+    .input-box {
+      margin: 15px 0;
+      text-align: left;
+    }
+    input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      outline: none;
+      font-size: 15px;
+      text-align: center;
+      font-weight: 600;
+      color: #1e293b;
+      transition: border-color 0.2s;
+    }
+    input:focus {
+      border-color: #8b5cf6;
+    }
+    .hint-text {
+      font-size: 12px;
+      color: #8b5cf6;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 6px;
+      display: none;
     }
     .btn-group {
       display: flex;
@@ -121,14 +153,14 @@
       margin: 20px 0;
     }
     .score-title {
-      font-size: 14px;
+      font-size: 13px;
       color: #6d28d9;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
     .score-val {
-      font-size: 36px;
+      font-size: 32px;
       font-weight: 800;
       color: #7c3aed;
       margin: 6px 0;
@@ -153,10 +185,25 @@
 
   <div class="card">
     
-    <!-- Screen 1: The Main Catch -->
-    <div id="screen1" class="screen active">
-      <div class="badge">👀✨</div>
-      <h2>Do you agree we make an top-tier combo?</h2>
+    <!-- Screen 0: Password Lock Screen -->
+    <div id="screen0" class="screen active">
+      <div class="badge">🔒✨</div>
+      <h2>Secret Vault Access</h2>
+      <p class="subtext">Enter password to unlock this quiz</p>
+      
+      <div class="input-box">
+        <input type="password" id="passInput" placeholder="Enter password...">
+        <p class="hint-text">💡 Hint: Try your name</p>
+        <p id="errorMsg" class="error-msg">Wrong password! Try again 😉</p>
+      </div>
+
+      <button style="width: 100%; margin-top: 10px;" onclick="checkPassword()">Unlock Quiz 🔑</button>
+    </div>
+
+    <!-- Screen 1: The Main Question -->
+    <div id="screen1" class="screen">
+      <div class="badge">👀💖</div>
+      <h2>Hey Janvi! Do you agree we have the best chemistry?</h2>
       <p class="subtext">Honest answers only! No backing out 😎</p>
       <div class="btn-group">
         <button id="yesBtn">YES, ALWAYS 💥</button>
@@ -164,7 +211,7 @@
       </div>
     </div>
 
-    <!-- Screen 2: Quick Vibe Selector -->
+    <!-- Screen 2: Vibe Selector -->
     <div id="screen2" class="screen">
       <div class="badge">🔥⚡</div>
       <h2>Knew it! Now pick our main energy:</h2>
@@ -183,7 +230,7 @@
       <button style="width: 100%; margin-top: 10px;" onclick="showFinal()">Calculate Vibe Score 🚀</button>
     </div>
 
-    <!-- Screen 3: Final Card -->
+    <!-- Screen 3: Final Verification Screen -->
     <div id="screen3" class="screen">
       <div class="badge">👑💯</div>
       <h2>Official Vibe Verification</h2>
@@ -194,14 +241,28 @@
         <p id="vibeTag" style="color: #4c1d95; font-size: 14px; font-weight: 600;"></p>
       </div>
 
-      <button style="width: 100%;" onclick="confetti({ particleCount: 150, spread: 90 })">Certified Besties! 🎉</button>
-      <p class="ps-text">P.S. Code built specially for this vibe check ✨</p>
+      <button style="width: 100%;" onclick="confetti({ particleCount: 150, spread: 90 })">Certified Top Pair! 🎉</button>
+      <p class="ps-text">P.S. Code built specially for Janvi ✨</p>
     </div>
 
   </div>
 
   <script>
     let chosenVibe = 'Unstoppable Chaos 🌪️';
+
+    function checkPassword() {
+      const inputVal = document.getElementById('passInput').value.trim().toLowerCase();
+      const errorMsg = document.getElementById('errorMsg');
+
+      // Accepts janvi / Janvi / JANVI
+      if (inputVal === 'janvi') {
+        errorMsg.style.display = 'none';
+        confetti({ particleCount: 80, spread: 60 });
+        nextScreen(1);
+      } else {
+        errorMsg.style.display = 'block';
+      }
+    }
 
     function nextScreen(n) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -233,7 +294,7 @@
     function showFinal() {
       document.getElementById('vibeTag').innerText = `Vibe: ${chosenVibe}`;
       nextScreen(3);
-      confetti({ particleCount: 100, spread: 70 });
+      confetti({ particleCount: 120, spread: 80 });
     }
   </script>
 </body>
