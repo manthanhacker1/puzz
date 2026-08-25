@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Date Invitation 🌸</title>
+  <title>Vibe Check ⚡</title>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -14,7 +14,7 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
     body {
-      background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+      background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -22,12 +22,12 @@
       padding: 20px;
     }
     .card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
       padding: 35px 25px;
       border-radius: 28px;
-      box-shadow: 0 20px 40px rgba(238, 156, 167, 0.25);
+      box-shadow: 0 20px 40px rgba(161, 196, 253, 0.3);
       text-align: center;
       max-width: 380px;
       width: 100%;
@@ -39,21 +39,21 @@
     .screen.active {
       display: block;
     }
-    .emoji-badge {
+    .badge {
       font-size: 54px;
       margin-bottom: 12px;
       display: inline-block;
       animation: float 3s ease-in-out infinite;
     }
     h2 {
-      color: #2d3748;
+      color: #1e293b;
       font-weight: 800;
       font-size: 22px;
       line-height: 1.35;
       margin-bottom: 8px;
     }
     p.subtext {
-      color: #718096;
+      color: #64748b;
       font-size: 14px;
       margin-bottom: 24px;
     }
@@ -65,7 +65,7 @@
       position: relative;
     }
     button {
-      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
       color: white;
       border: none;
       padding: 12px 28px;
@@ -73,67 +73,69 @@
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 8px 15px rgba(255, 117, 140, 0.3);
+      box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3);
       transition: all 0.2s ease;
     }
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 20px rgba(255, 117, 140, 0.4);
+      box-shadow: 0 12px 20px rgba(99, 102, 241, 0.4);
     }
     #noBtn {
-      background: #edf2f7;
-      color: #4a5568;
+      background: #e2e8f0;
+      color: #475569;
       box-shadow: none;
       position: relative;
     }
     .grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 10px;
       margin: 15px 0;
     }
-    .grid-item {
+    .option-card {
       background: white;
-      border: 2px solid #edf2f7;
+      border: 2px solid #e2e8f0;
       border-radius: 16px;
-      padding: 14px 10px;
+      padding: 14px 16px;
       cursor: pointer;
       font-weight: 600;
       font-size: 14px;
-      color: #4a5568;
-      transition: all 0.2s ease;
-    }
-    .grid-item span {
-      display: block;
-      font-size: 26px;
-      margin-bottom: 6px;
-    }
-    .grid-item:hover, .grid-item.selected {
-      border-color: #ff758c;
-      background: #fff5f7;
-      color: #ff758c;
-      transform: scale(1.02);
-    }
-    .summary-box {
-      background: #fff5f7;
-      border: 1.5px dashed #ff758c;
-      border-radius: 18px;
-      padding: 18px;
-      margin: 20px 0;
+      color: #334155;
       text-align: left;
-    }
-    .summary-item {
-      font-size: 14px;
-      color: #4a5568;
-      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
+      transition: all 0.2s ease;
     }
-    .summary-item:last-child { margin-bottom: 0; }
+    .option-card:hover, .option-card.selected {
+      border-color: #8b5cf6;
+      background: #f5f3ff;
+      color: #7c3aed;
+      transform: scale(1.02);
+    }
+    .result-box {
+      background: #f5f3ff;
+      border: 2px dashed #8b5cf6;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .score-title {
+      font-size: 14px;
+      color: #6d28d9;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .score-val {
+      font-size: 36px;
+      font-weight: 800;
+      color: #7c3aed;
+      margin: 6px 0;
+    }
     .ps-text {
       font-size: 12px;
-      color: #a0aec0;
+      color: #94a3b8;
       margin-top: 16px;
       font-style: italic;
     }
@@ -151,65 +153,59 @@
 
   <div class="card">
     
-    <!-- Screen 1: The Big Question -->
+    <!-- Screen 1: The Main Catch -->
     <div id="screen1" class="screen active">
-      <div class="emoji-badge">🐶✨</div>
-      <h2>Are we officially going on this date?</h2>
-      <p class="subtext">No backsies allowed once you press Yes!</p>
+      <div class="badge">👀✨</div>
+      <h2>Do you agree we make an top-tier combo?</h2>
+      <p class="subtext">Honest answers only! No backing out 😎</p>
       <div class="btn-group">
-        <button id="yesBtn">HELL YES 💕</button>
-        <button id="noBtn">NO 💔</button>
+        <button id="yesBtn">YES, ALWAYS 💥</button>
+        <button id="noBtn">NOPE 😜</button>
       </div>
     </div>
 
-    <!-- Screen 2: Reaction -->
+    <!-- Screen 2: Quick Vibe Selector -->
     <div id="screen2" class="screen">
-      <div class="emoji-badge">🥳🎉</div>
-      <h2>Yay! It's locked in!</h2>
-      <p class="subtext">Now let's pick what we're eating 👀</p>
-      <button onclick="nextScreen(3)">Let's pick vibe! 🚀</button>
-    </div>
-
-    <!-- Screen 3: Food / Vibe -->
-    <div id="screen4" class="screen">
-      <div class="emoji-badge">🍽️✨</div>
-      <h2>What vibe are we feeling?</h2>
-      <p class="subtext">Pick your favorite treat</p>
+      <div class="badge">🔥⚡</div>
+      <h2>Knew it! Now pick our main energy:</h2>
+      <p class="subtext">What describes us best?</p>
       <div class="grid">
-        <div class="grid-item" onclick="selectVibe(this, 'Pizza & Chill 🍕')"><span>🍕</span>Pizza</div>
-        <div class="grid-item" onclick="selectVibe(this, 'Sushi Date 🍣')"><span>🍣</span>Sushi</div>
-        <div class="grid-item" onclick="selectVibe(this, 'Burgers & Fries 🍔')"><span>🍔</span>Burgers</div>
-        <div class="grid-item" onclick="selectVibe(this, 'Pasta & Wine 🍝')"><span>🍝</span>Pasta</div>
-        <div class="grid-item" onclick="selectVibe(this, 'Tacos 🌮')"><span>🌮</span>Tacos</div>
-        <div class="grid-item" onclick="selectVibe(this, 'Dessert & Coffee ☕')"><span>☕</span>Coffee</div>
+        <div class="option-card" onclick="selectVibe(this, 'Unstoppable Chaos 🌪️')">
+          <span style="font-size: 22px;">🌪️</span> Unstoppable Chaos
+        </div>
+        <div class="option-card" onclick="selectVibe(this, 'Late Night Talks & Snacks 🍕')">
+          <span style="font-size: 22px;">🍕</span> Late Night Talks & Food
+        </div>
+        <div class="option-card" onclick="selectVibe(this, 'Telepathic Understanding 🧠')">
+          <span style="font-size: 22px;">🧠</span> Just Eye Contact & Laughing
+        </div>
       </div>
-      <button style="width: 100%; margin-top: 10px;" onclick="goToFinal()">Lock it in! 🔥</button>
+      <button style="width: 100%; margin-top: 10px;" onclick="showFinal()">Calculate Vibe Score 🚀</button>
     </div>
 
-    <!-- Screen 4: Final Confirmation -->
-    <div id="screen5" class="screen">
-      <div class="emoji-badge">💌✨</div>
-      <h2>See you very soon!</h2>
-      <p class="subtext">Here is your official date pass:</p>
+    <!-- Screen 3: Final Card -->
+    <div id="screen3" class="screen">
+      <div class="badge">👑💯</div>
+      <h2>Official Vibe Verification</h2>
       
-      <div class="summary-box">
-        <div class="summary-item">📍 <strong>Plan:</strong> <span id="summaryVibe">Food</span></div>
-        <div class="summary-item">⏰ <strong>Status:</strong> Confirmed & Locked!</div>
+      <div class="result-box">
+        <div class="score-title">Compatibility Match</div>
+        <div class="score-val">100% MATCH</div>
+        <p id="vibeTag" style="color: #4c1d95; font-size: 14px; font-weight: 600;"></p>
       </div>
 
-      <button style="width: 100%;" onclick="confetti({ particleCount: 150, spread: 80 })">Can't Wait! 🥰</button>
-      <p class="ps-text">P.S. Code crafted specially for you 💕</p>
+      <button style="width: 100%;" onclick="confetti({ particleCount: 150, spread: 90 })">Certified Besties! 🎉</button>
+      <p class="ps-text">P.S. Code built specially for this vibe check ✨</p>
     </div>
 
   </div>
 
   <script>
-    let selectedVibeText = 'Food & Fun';
+    let chosenVibe = 'Unstoppable Chaos 🌪️';
 
     function nextScreen(n) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      const target = document.getElementById('screen' + n);
-      if(target) target.classList.add('active');
+      document.getElementById('screen' + n).classList.add('active');
     }
 
     document.getElementById('yesBtn').addEventListener('click', () => {
@@ -229,15 +225,14 @@
     });
 
     function selectVibe(el, vibe) {
-      document.querySelectorAll('.grid-item').forEach(i => i.classList.remove('selected'));
+      document.querySelectorAll('.option-card').forEach(i => i.classList.remove('selected'));
       el.classList.add('selected');
-      selectedVibeText = vibe;
+      chosenVibe = vibe;
     }
 
-    function goToFinal() {
-      document.getElementById('summaryVibe').innerText = selectedVibeText;
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById('screen5').classList.add('active');
+    function showFinal() {
+      document.getElementById('vibeTag').innerText = `Vibe: ${chosenVibe}`;
+      nextScreen(3);
       confetti({ particleCount: 100, spread: 70 });
     }
   </script>
