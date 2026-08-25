@@ -76,18 +76,21 @@
     input:focus {
       border-color: #8b5cf6;
     }
+    .error-container {
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: 13px;
+      font-weight: 700;
+    }
     .hint-text {
       font-size: 12px;
       color: #8b5cf6;
       font-weight: 600;
-      margin-top: 8px;
-    }
-    .error-msg {
-      color: #ef4444;
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: 6px;
-      display: none;
+      margin-top: 4px;
     }
     .btn-group {
       display: flex;
@@ -193,8 +196,10 @@
       
       <div class="input-box">
         <input type="password" id="passInput" placeholder="Enter password...">
-        <p class="hint-text">💡 Hint: Try your name</p>
-        <p id="errorMsg" class="error-msg">Wrong password! Try again 😉</p>
+        <div id="errorContainer" class="error-container">
+          <p class="error-msg">Wrong password! Try again 😉</p>
+          <p class="hint-text">💡 Hint: Try your name</p>
+        </div>
       </div>
 
       <button style="width: 100%; margin-top: 10px;" onclick="checkPassword()">Unlock Quiz 🔑</button>
@@ -252,15 +257,14 @@
 
     function checkPassword() {
       const inputVal = document.getElementById('passInput').value.trim().toLowerCase();
-      const errorMsg = document.getElementById('errorMsg');
+      const errorContainer = document.getElementById('errorContainer');
 
-      // Accepts janvi / Janvi / JANVI
       if (inputVal === 'janvi') {
-        errorMsg.style.display = 'none';
+        errorContainer.style.display = 'none';
         confetti({ particleCount: 80, spread: 60 });
         nextScreen(1);
       } else {
-        errorMsg.style.display = 'block';
+        errorContainer.style.display = 'block';
       }
     }
 
