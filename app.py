@@ -9,14 +9,14 @@ st.set_page_config(
     page_title="For Vanshika",
     page_icon="💗",
     layout="centered",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="collapsed",
 )
 
 # ============================================================
-# CSS
+# CUSTOM CSS
 # ============================================================
 
-st.markdown("""
+st.html("""
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
@@ -24,6 +24,11 @@ st.markdown("""
 /* ============================================================
    GLOBAL
    ============================================================ */
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
 
 .stApp {
     background:
@@ -39,12 +44,12 @@ st.markdown("""
         ),
         #100a12;
 
-    color: white;
+    color: #ffffff;
 }
 
 .block-container {
     max-width: 480px !important;
-    padding: 25px 18px 45px !important;
+    padding: 24px 18px 45px !important;
 }
 
 header {
@@ -55,8 +60,8 @@ footer {
     visibility: hidden;
 }
 
-* {
-    -webkit-tap-highlight-color: transparent;
+[data-testid="stHeader"] {
+    background: transparent !important;
 }
 
 /* ============================================================
@@ -78,7 +83,9 @@ footer {
 .small {
     color: #d9b8c5;
 
-    font-family: "DM Sans", sans-serif;
+    font-family:
+        "DM Sans",
+        sans-serif;
 
     font-size: 11px;
 
@@ -90,13 +97,17 @@ footer {
 }
 
 .hero h1 {
-    font-family: "Cormorant Garamond", serif !important;
+    color: #ffffff;
 
-    font-size: 56px !important;
+    font-family:
+        "Cormorant Garamond",
+        serif;
 
-    line-height: .92 !important;
+    font-size: 56px;
 
-    font-weight: 500 !important;
+    line-height: 0.92;
+
+    font-weight: 500;
 
     letter-spacing: -2px;
 
@@ -108,7 +119,9 @@ footer {
 
     color: #d9cbd2;
 
-    font-family: "DM Sans", sans-serif;
+    font-family:
+        "DM Sans",
+        sans-serif;
 
     font-size: 14px;
 
@@ -126,7 +139,7 @@ footer {
 }
 
 /* ============================================================
-   BUTTON
+   BUTTONS
    ============================================================ */
 
 div.stButton > button {
@@ -137,7 +150,7 @@ div.stButton > button {
 
     border-radius: 18px !important;
 
-    border: 1px solid rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,0.16);
 
     background:
         linear-gradient(
@@ -146,62 +159,74 @@ div.stButton > button {
             #aa5f7b
         );
 
-    color: white;
+    color: #ffffff;
 
-    font-family: "DM Sans", sans-serif;
+    font-family:
+        "DM Sans",
+        sans-serif;
 
     font-size: 15px;
 
     font-weight: 600;
 
     box-shadow:
-        0 15px 45px rgba(190,80,120,.25);
+        0 15px 45px
+        rgba(190,80,120,0.25);
 
-    transition: all .2s ease;
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
 }
 
 div.stButton > button:hover {
 
-    border-color:
-        rgba(255,255,255,.30);
+    color: #ffffff;
 
-    color: white;
+    border-color:
+        rgba(255,255,255,0.30);
 
     transform:
         translateY(-1px);
+
+    box-shadow:
+        0 18px 50px
+        rgba(190,80,120,0.35);
 }
 
 div.stButton > button:active {
 
     transform:
-        scale(.97);
+        scale(0.97);
 }
 
 /* ============================================================
-   HEART DECORATION
+   HEART
    ============================================================ */
 
 .heart {
+
     margin-top: 25px;
 
     text-align: center;
-}
-
-.heart span::before {
-
-    content: "♥";
 
     color: #e7a8bc;
 
     font-size: 25px;
+}
+
+.heart::before {
+
+    content: "\\2665";
 
     animation:
         heartbeat 2s ease-in-out infinite;
+
+    display: inline-block;
 }
 
 @keyframes heartbeat {
 
-    0%,100% {
+    0%, 100% {
         transform: scale(1);
     }
 
@@ -218,11 +243,15 @@ div.stButton > button:active {
 
     text-align: center;
 
+    color: #ffffff;
+
     font-family:
         "Cormorant Garamond",
         serif;
 
-    font-size: 31px;
+    font-size: 32px;
+
+    margin-top: 5px;
 
     margin-bottom: 3px;
 }
@@ -299,10 +328,10 @@ div.stButton > button:active {
     box-shadow:
 
         inset 0 0 22px
-        rgba(50,15,8,.30),
+        rgba(50,15,8,0.30),
 
         0 25px 60px
-        rgba(0,0,0,.42);
+        rgba(0,0,0,0.42);
 }
 
 .wrist::after {
@@ -319,7 +348,7 @@ div.stButton > button:active {
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,255,255,.12),
+            rgba(255,255,255,0.12),
             transparent
         );
 }
@@ -342,13 +371,11 @@ div.stButton > button:active {
 
     transform:
         translateY(-150px)
-        scale(.65);
+        scale(0.65);
 
     transition:
         opacity .25s ease,
-
-        transform
-        .75s
+        transform .75s
         cubic-bezier(.18,.89,.32,1.28);
 }
 
@@ -361,7 +388,7 @@ div.stButton > button:active {
         scale(1);
 }
 
-/* GOLD */
+/* Gold */
 
 .b1 {
 
@@ -378,10 +405,10 @@ div.stButton > button:active {
         #fff1a8,
 
         0 0 18px
-        rgba(228,179,79,.45);
+        rgba(228,179,79,0.45);
 }
 
-/* PINK */
+/* Pink */
 
 .b2 {
 
@@ -398,10 +425,10 @@ div.stButton > button:active {
         #ffd5e2,
 
         0 0 18px
-        rgba(201,95,132,.45);
+        rgba(201,95,132,0.45);
 }
 
-/* GOLD */
+/* Gold */
 
 .b3 {
 
@@ -418,10 +445,10 @@ div.stButton > button:active {
         #fff4b6,
 
         0 0 18px
-        rgba(231,182,80,.45);
+        rgba(231,182,80,0.45);
 }
 
-/* DARK PINK */
+/* Dark pink */
 
 .b4 {
 
@@ -438,10 +465,10 @@ div.stButton > button:active {
         #ffd1df,
 
         0 0 18px
-        rgba(169,67,109,.45);
+        rgba(169,67,109,0.45);
 }
 
-/* GOLD */
+/* Gold */
 
 .b5 {
 
@@ -458,7 +485,7 @@ div.stButton > button:active {
         #fff0a9,
 
         0 0 18px
-        rgba(214,160,67,.45);
+        rgba(214,160,67,0.45);
 }
 
 /* ============================================================
@@ -498,44 +525,39 @@ div.stButton > button:active {
         0 0 0 3px #754a12,
 
         0 0 55px
-        rgba(220,170,75,.42);
+        rgba(220,170,75,0.42);
 
     animation:
-        pulse 2.2s ease-in-out infinite;
+        pulse 2.2s
+        ease-in-out infinite;
 }
 
 @keyframes pulse {
 
-    0%,100% {
-
-        transform:
-            scale(1);
+    0%, 100% {
+        transform: scale(1);
     }
 
     50% {
-
-        transform:
-            scale(1.06);
+        transform: scale(1.06);
     }
 }
 
 .final h1 {
 
+    color: #ffffff;
+
     font-family:
         "Cormorant Garamond",
-        serif !important;
+        serif;
 
-    font-size:
-        49px !important;
+    font-size: 49px;
 
-    line-height:
-        1 !important;
+    line-height: 1;
 
-    font-weight:
-        500 !important;
+    font-weight: 500;
 
-    letter-spacing:
-        -1px;
+    letter-spacing: -1px;
 
     margin:
         0 0 25px;
@@ -572,10 +594,6 @@ div.stButton > button:active {
     font-size: 25px;
 }
 
-/* ============================================================
-   FINAL HEART
-   ============================================================ */
-
 .final-heart {
 
     margin-top: 20px;
@@ -587,10 +605,13 @@ div.stButton > button:active {
 
 .final-heart::before {
 
-    content: "♥";
+    content: "\\2665";
+
+    display: inline-block;
 
     animation:
-        heartbeat 2s ease-in-out infinite;
+        heartbeat 2s
+        ease-in-out infinite;
 }
 
 /* ============================================================
@@ -600,62 +621,47 @@ div.stButton > button:active {
 @media (max-width: 500px) {
 
     .hero {
-
-        min-height:
-            70vh;
+        min-height: 70vh;
     }
 
     .hero h1 {
-
-        font-size:
-            51px !important;
+        font-size: 51px;
     }
 
     .wrist-box {
-
-        height:
-            370px;
+        height: 370px;
     }
 }
 
 @media (max-height: 680px) {
 
     .hero {
-
-        min-height:
-            65vh;
+        min-height: 65vh;
     }
 
     .wrist-box {
-
-        height:
-            330px;
+        height: 330px;
     }
 
     .wrist {
-
-        height:
-            260px;
+        height: 260px;
     }
 
     .bangle {
-
         transform:
             translateY(-130px)
-            scale(.85);
+            scale(0.85);
     }
 
     .bangle.show {
-
         transform:
             translateY(0)
-            scale(.85);
+            scale(0.85);
     }
 }
 
 </style>
-""", unsafe_allow_html=True)
-
+""")
 
 # ============================================================
 # SESSION STATE
@@ -669,12 +675,12 @@ if "count" not in st.session_state:
 
 
 # ============================================================
-# INTRO
+# INTRO PAGE
 # ============================================================
 
 if st.session_state.page == "intro":
 
-    st.markdown("""
+    st.html("""
     <div class="hero">
 
         <div class="small">
@@ -688,7 +694,7 @@ if st.session_state.page == "intro":
 
         <p>
             I couldn't be there to put bangles
-            on your wrist myself...
+            on your wrist myself.
 
             <br><br>
 
@@ -697,112 +703,94 @@ if st.session_state.page == "intro":
         </p>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
     if st.button(
         "Open your surprise",
         use_container_width=True
     ):
-
         st.session_state.page = "bangles"
-
         st.rerun()
 
-    st.markdown("""
-    <div class="heart">
-        <span></span>
-    </div>
-    """, unsafe_allow_html=True)
+    st.html("""
+    <div class="heart"></div>
+    """)
 
 
 # ============================================================
-# BANGLES
+# BANGLE PAGE
 # ============================================================
 
 elif st.session_state.page == "bangles":
 
-    st.markdown("""
+    st.html("""
     <div class="title">
         For You, Vanshika
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
-    st.markdown(
+    st.html(
         f"""
         <div class="counter">
             {st.session_state.count} / 5
         </div>
-        """,
-        unsafe_allow_html=True
+        """
     )
 
-    st.markdown("""
+    st.html("""
     <div class="instruction">
         Tap below and let me put these on your wrist...
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
-    # ----------------------------------------
-    # Bangles
-    # ----------------------------------------
+    # --------------------------------------------------------
+    # BANGLE HTML
+    # --------------------------------------------------------
 
     bangle_classes = [
         "b1",
         "b2",
         "b3",
         "b4",
-        "b5"
+        "b5",
     ]
 
-    bangles = ""
+    bangles_html = ""
 
     for index, class_name in enumerate(bangle_classes):
 
-        if index < st.session_state.count:
+        visible = "show" if index < st.session_state.count else ""
 
-            visible = "show"
-
-        else:
-
-            visible = ""
-
-        bangles += f"""
+        bangles_html += f"""
         <div class="bangle {class_name} {visible}"></div>
         """
 
-    # ----------------------------------------
-    # Wrist
-    # ----------------------------------------
+    # --------------------------------------------------------
+    # WRIST
+    # --------------------------------------------------------
 
-    st.markdown(
+    st.html(
         f"""
         <div class="wrist-box">
 
             <div class="wrist"></div>
 
-            {bangles}
+            {bangles_html}
 
         </div>
-        """,
-        unsafe_allow_html=True
+        """
     )
 
-    # ----------------------------------------
-    # Button
-    # ----------------------------------------
+    # --------------------------------------------------------
+    # BUTTON
+    # --------------------------------------------------------
 
     button_text = [
-
         "Add the first one",
-
         "One more...",
-
         "It's getting prettier",
-
         "Almost there",
-
-        "One last one..."
-
+        "One last one...",
     ]
 
     current = st.session_state.count
@@ -811,21 +799,20 @@ elif st.session_state.page == "bangles":
 
         if st.button(
             button_text[current],
-            use_container_width=True
+            use_container_width=True,
         ):
 
             st.session_state.count += 1
-
             st.rerun()
 
     else:
 
         if st.button(
             "See what I wanted to tell you",
-            use_container_width=True
+            use_container_width=True,
         ):
 
-            time.sleep(.5)
+            time.sleep(0.5)
 
             st.session_state.page = "final"
 
@@ -833,12 +820,12 @@ elif st.session_state.page == "bangles":
 
 
 # ============================================================
-# FINAL
+# FINAL PAGE
 # ============================================================
 
 elif st.session_state.page == "final":
 
-    st.markdown("""
+    st.html("""
     <div class="final">
 
         <div class="final-ring"></div>
@@ -868,15 +855,14 @@ elif st.session_state.page == "final":
         <div class="final-heart"></div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
     if st.button(
         "Replay the surprise",
-        use_container_width=True
+        use_container_width=True,
     ):
 
         st.session_state.page = "intro"
-
         st.session_state.count = 0
 
         st.rerun()
