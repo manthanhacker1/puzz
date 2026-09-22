@@ -3,865 +3,1225 @@ import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="For Vanshika",
-    page_icon="💗",
+    page_icon="✦",
     layout="centered",
     initial_sidebar_state="collapsed",
 )
 
-APP = r"""
+HTML = r"""
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<meta name="theme-color" content="#120b10">
+
+<meta
+    name="viewport"
+    content="width=device-width,
+    initial-scale=1.0,
+    maximum-scale=1.0,
+    user-scalable=no"
+>
+
 <title>For Vanshika</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
 
-:root{
-  --bg:#10090e;
-  --pink:#e8a1b8;
-  --gold:#e4b04d;
-  --cream:#fff7ee;
-  --muted:#cdbcc4;
+@import url(
+'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap'
+);
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,
+body {
 
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  min-height:100%;
-  background:#10090e;
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: #090808;
+
+    overflow: hidden;
 }
 
-body{
-  font-family:"DM Sans",sans-serif;
-  color:white;
-  overflow:hidden;
+body {
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    color: #f7f1e9;
 }
 
-button{
-  font-family:inherit;
-  -webkit-appearance:none;
+#app {
+
+    position: relative;
+
+    width: 100%;
+    height: 100svh;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(132, 82, 48, .14),
+            transparent 35%
+        ),
+        #090808;
 }
 
-#app{
-  position:relative;
-  width:100%;
-  min-height:100svh;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 15% 8%,rgba(226,126,159,.18),transparent 31%),
-    radial-gradient(circle at 92% 92%,rgba(225,171,73,.12),transparent 32%),
-    linear-gradient(150deg,#170c13,#0d080c 70%);
+/* =========================================================
+   GRAIN
+   ========================================================= */
+
+.grain {
+
+    position: absolute;
+
+    inset: -50%;
+
+    width: 200%;
+    height: 200%;
+
+    pointer-events: none;
+
+    opacity: .055;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+    animation:
+        grain .35s steps(2) infinite;
 }
 
-.noise{
-  position:absolute;
-  inset:0;
-  opacity:.055;
-  pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+@keyframes grain {
+
+    0% {
+        transform: translate(0,0);
+    }
+
+    25% {
+        transform: translate(-2%,-1%);
+    }
+
+    50% {
+        transform: translate(1%,2%);
+    }
+
+    75% {
+        transform: translate(2%,-2%);
+    }
+
+    100% {
+        transform: translate(-1%,1%);
+    }
 }
 
-.screen{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:30px 20px calc(30px + env(safe-area-inset-bottom));
-  opacity:0;
-  pointer-events:none;
-  transform:scale(1.025);
-  transition:opacity .65s ease,transform .75s cubic-bezier(.2,.8,.2,1);
+/* =========================================================
+   SCREENS
+   ========================================================= */
+
+.screen {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding:
+        30px
+        24px
+        calc(30px + env(safe-area-inset-bottom));
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transform:
+        translateY(18px);
+
+    transition:
+        opacity 1s ease,
+        transform 1s cubic-bezier(.2,.8,.2,1);
 }
 
-.screen.active{
-  opacity:1;
-  pointer-events:auto;
-  transform:scale(1);
+.screen.active {
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+    transform:
+        translateY(0);
 }
 
-.eyebrow{
-  font-size:10px;
-  letter-spacing:3.4px;
-  text-transform:uppercase;
-  color:#d5b7c1;
-  margin-bottom:17px;
+/* =========================================================
+   TOP LABEL
+   ========================================================= */
+
+.label {
+
+    position: absolute;
+
+    top:
+        calc(24px + env(safe-area-inset-top));
+
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    color: #8f8883;
+
+    font-size: 9px;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
 }
 
-.serif{
-  font-family:"Cormorant Garamond",serif;
+/* =========================================================
+   OPENING
+   ========================================================= */
+
+.opening {
+
+    text-align: center;
 }
 
-.introTitle{
-  text-align:center;
-  font-size:clamp(48px,14vw,72px);
-  line-height:.88;
-  font-weight:500;
-  letter-spacing:-2.2px;
-  margin:0;
+.opening .micro {
+
+    color: #8f8883;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 24px;
 }
 
-.introText{
-  max-width:330px;
-  text-align:center;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.8;
-  margin:25px 0 30px;
+.opening h1 {
+
+    margin: 0;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(68px, 20vw, 105px);
+
+    line-height: .76;
+
+    font-weight: 300;
+
+    letter-spacing: -4px;
+
+    color: #eee6db;
 }
 
-.primary{
-  border:1px solid rgba(255,255,255,.18);
-  background:linear-gradient(135deg,#e99bb1,#a95677);
-  color:white;
-  border-radius:18px;
-  min-height:56px;
-  padding:0 28px;
-  font-size:15px;
-  font-weight:600;
-  box-shadow:0 18px 50px rgba(192,78,119,.26);
-  cursor:pointer;
+.opening .line {
+
+    width: 45px;
+
+    height: 1px;
+
+    background: #a98a62;
+
+    margin:
+        32px auto 25px;
 }
 
-.primary:active{transform:scale(.97)}
+.opening p {
 
-.floatingHeart{
-  margin-top:25px;
-  color:#e7a3b9;
-  font-size:24px;
-  animation:heartbeat 2.2s infinite;
+    margin: 0 auto 35px;
+
+    max-width: 290px;
+
+    color: #9f9791;
+
+    font-size: 13px;
+
+    line-height: 1.8;
 }
 
-@keyframes heartbeat{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.14)}
+.open {
+
+    background: none;
+
+    border: 1px solid rgba(221,190,145,.38);
+
+    color: #d8c3a3;
+
+    padding:
+        14px 28px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition: .4s ease;
 }
 
-/* gift */
-.giftScene{
-  width:min(330px,84vw);
-  height:290px;
-  position:relative;
-  margin-bottom:12px;
+.open:hover {
+
+    background:
+        rgba(218,184,133,.08);
+
+    border-color:
+        rgba(221,190,145,.7);
 }
 
-.giftGlow{
-  position:absolute;
-  width:190px;
-  height:190px;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  border-radius:50%;
-  background:rgba(230,166,73,.14);
-  filter:blur(35px);
+/* =========================================================
+   LETTER
+   ========================================================= */
+
+.letter {
+
+    width:
+        min(350px, 88vw);
+
+    height:
+        min(520px, 72vh);
+
+    background:
+
+        linear-gradient(
+            145deg,
+            #eee4d5,
+            #dfd0bc
+        );
+
+    color: #29221d;
+
+    position: relative;
+
+    padding:
+        45px 32px;
+
+    box-shadow:
+
+        0 35px 90px
+        rgba(0,0,0,.55),
+
+        0 0 0 1px
+        rgba(255,255,255,.08);
+
+    transform:
+        rotate(-1deg);
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
 }
 
-.box{
-  position:absolute;
-  width:190px;
-  height:125px;
-  left:50%;
-  top:105px;
-  transform:translateX(-50%);
-  transform-style:preserve-3d;
+.letter:before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 10px;
+
+    border:
+        1px solid
+        rgba(86,66,43,.20);
+
+    pointer-events: none;
 }
 
-.boxBody{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  height:100px;
-  border-radius:8px 8px 18px 18px;
-  background:
-    linear-gradient(135deg,#8d254a,#5d1831 62%,#3c1122);
-  box-shadow:0 28px 45px rgba(0,0,0,.45);
-  overflow:hidden;
+.letterTop {
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+
+    color: #87745d;
 }
 
-.boxBody:after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:0;
-  bottom:0;
-  width:27px;
-  transform:translateX(-50%);
-  background:linear-gradient(90deg,#d7a23f,#ffe39a 48%,#b97c20);
-  opacity:.95;
+.letter h2 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-weight: 400;
+
+    font-size: 48px;
+
+    line-height: .9;
+
+    margin:
+        55px 0 25px;
 }
 
-.lid{
-  position:absolute;
-  left:-7px;
-  top:12px;
-  width:204px;
-  height:48px;
-  border-radius:9px;
-  background:linear-gradient(135deg,#a82f59,#651934 68%,#421021);
-  box-shadow:0 14px 23px rgba(0,0,0,.38);
-  transform-origin:12px 40px;
-  transition:transform 1s cubic-bezier(.2,.9,.25,1);
-  z-index:4;
+.letter p {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 21px;
+
+    line-height: 1.35;
+
+    color: #43382f;
 }
 
-.lid:after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:0;
-  bottom:0;
-  width:27px;
-  transform:translateX(-50%);
-  background:linear-gradient(90deg,#d7a23f,#ffe39a 48%,#b97c20);
+.letterBottom {
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color: #89755e;
 }
 
-.ribbon{
-  position:absolute;
-  left:50%;
-  top:45px;
-  width:24px;
-  height:125px;
-  transform:translateX(-50%);
-  background:linear-gradient(90deg,#b17a20,#f6d67c,#b17a20);
-  z-index:3;
+.next {
+
+    margin-top: 22px;
+
+    background: none;
+
+    border: none;
+
+    color: #b89a6b;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
 }
 
-.bow{
-  position:absolute;
-  z-index:5;
-  top:16px;
-  left:50%;
-  width:90px;
-  height:50px;
-  transform:translateX(-50%);
+/* =========================================================
+   JEWELRY EDITORIAL
+   ========================================================= */
+
+.editorial {
+
+    width: 100%;
+
+    max-width: 430px;
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
 }
 
-.bow:before,.bow:after{
-  content:"";
-  position:absolute;
-  top:0;
-  width:47px;
-  height:37px;
-  border:7px solid #e1b34e;
-  background:#8d254a;
-  border-radius:50% 50% 45% 45%;
-}
-.bow:before{left:0;transform:rotate(-22deg)}
-.bow:after{right:0;transform:rotate(22deg)}
+.editorial .tiny {
 
-.boxOpen .lid{
-  transform:translateY(-55px) rotateX(62deg) rotateZ(-2deg);
+    color: #887e78;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 15px;
 }
 
-.boxOpen .bow{
-  opacity:0;
-  transform:translate(-50%,-70px) scale(.7);
-  transition:1s ease;
+.editorial h2 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-weight: 300;
+
+    font-size: 48px;
+
+    line-height: .9;
+
+    margin:
+        0 0 28px;
+
+    letter-spacing: -1px;
 }
 
-.boxOpen .giftGlow{
-  opacity:.7;
+/* =========================================================
+   ABSTRACT JEWELRY DISPLAY
+   ========================================================= */
+
+.jewelry {
+
+    width:
+        min(300px, 82vw);
+
+    height:
+        300px;
+
+    position: relative;
+
+    margin-bottom: 22px;
 }
 
-.tapHint{
-  color:#d5c4ca;
-  font-size:12px;
-  letter-spacing:.5px;
-  margin-top:6px;
+/* large shadow */
+
+.jewelryShadow {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 25px;
+
+    width: 220px;
+
+    height: 35px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius: 50%;
+
+    background:
+        rgba(0,0,0,.6);
+
+    filter:
+        blur(20px);
 }
 
-/* jewelry */
-.jewelStage{
-  width:min(380px,100%);
-  height:470px;
-  position:relative;
-  margin-top:2px;
+/* main bangle */
+
+.bangle {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    width: 235px;
+
+    height: 235px;
+
+    transform:
+        translate(-50%,-50%)
+        rotateX(64deg)
+        rotateZ(-13deg);
+
+    border-radius: 50%;
+
+    border:
+        15px solid #b88332;
+
+    background: transparent;
+
+    box-shadow:
+
+        inset 0 5px 4px
+        rgba(255,244,189,.95),
+
+        inset 0 -9px 10px
+        rgba(76,40,7,.8),
+
+        0 8px 12px
+        rgba(0,0,0,.5),
+
+        0 0 40px
+        rgba(202,151,60,.14);
 }
 
-.ambient{
-  position:absolute;
-  width:270px;
-  height:270px;
-  border-radius:50%;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  background:radial-gradient(circle,rgba(220,158,62,.16),transparent 68%);
-  filter:blur(15px);
+/* highlight */
+
+.bangle:before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 110px;
+
+    height: 5px;
+
+    top: 4px;
+
+    left: 40px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,247,208,.75);
+
+    filter:
+        blur(2px);
+
+    transform:
+        rotate(-8deg);
 }
 
-.hand{
-  position:absolute;
-  left:50%;
-  top:43px;
-  width:168px;
-  height:370px;
-  transform:translateX(-50%) rotate(-8deg);
-  border-radius:88px 88px 70px 70px;
-  background:
-    radial-gradient(ellipse at 30% 17%,rgba(255,229,201,.55),transparent 17%),
-    linear-gradient(100deg,#8f4c3a 0%,#bc7055 22%,#e0a17f 50%,#c77a5c 78%,#8e4b3a 100%);
-  box-shadow:
-    inset 10px 0 17px rgba(65,25,18,.25),
-    inset -9px 0 18px rgba(74,27,19,.25),
-    0 30px 70px rgba(0,0,0,.45);
-  overflow:visible;
+/* inner decorative ring */
+
+.bangle2 {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    width: 180px;
+
+    height: 180px;
+
+    transform:
+        translate(-50%,-50%)
+        rotateX(64deg)
+        rotateZ(-13deg);
+
+    border-radius: 50%;
+
+    border:
+        4px solid #f0c96c;
+
+    opacity: .9;
+
+    box-shadow:
+        0 0 9px
+        rgba(246,211,123,.5);
 }
 
-.hand:before{
-  content:"";
-  position:absolute;
-  left:19px;
-  top:-38px;
-  width:39px;
-  height:110px;
-  border-radius:25px 25px 16px 16px;
-  background:linear-gradient(100deg,#9e5845,#d69272 58%,#b86850);
-  transform:rotate(-4deg);
-  box-shadow:inset 5px 0 7px rgba(66,26,18,.2);
+/* stones */
+
+.stones {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    width: 235px;
+
+    height: 235px;
+
+    transform:
+        translate(-50%,-50%)
+        rotateX(64deg)
+        rotateZ(-13deg);
 }
 
-.hand:after{
-  content:"";
-  position:absolute;
-  right:9px;
-  top:-28px;
-  width:44px;
-  height:104px;
-  border-radius:25px 25px 17px 17px;
-  background:linear-gradient(100deg,#9a5341,#d08a6b 58%,#a75b47);
-  transform:rotate(13deg);
+.stone {
+
+    position: absolute;
+
+    width: 12px;
+
+    height: 12px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #fff,
+            #f7dca0 25%,
+            #bc8330 70%
+        );
+
+    box-shadow:
+        0 0 8px
+        rgba(255,223,150,.8);
 }
 
-.wristShadow{
-  position:absolute;
-  width:190px;
-  height:35px;
-  left:50%;
-  bottom:33px;
-  transform:translateX(-50%);
-  border-radius:50%;
-  background:rgba(0,0,0,.42);
-  filter:blur(14px);
+.s1 {
+    top: 14px;
+    left: 50%;
 }
 
-.banglesReal{
-  position:absolute;
-  left:50%;
-  top:105px;
-  width:190px;
-  height:180px;
-  transform:translateX(-50%) rotate(-8deg);
-  pointer-events:none;
+.s2 {
+    top: 50%;
+    right: 5px;
 }
 
-.ring{
-  position:absolute;
-  left:50%;
-  width:190px;
-  height:54px;
-  transform:translateX(-50%) scale(.2) rotateX(75deg);
-  border-radius:50%;
-  opacity:0;
-  transition:
-    transform .9s cubic-bezier(.16,.9,.24,1),
-    opacity .35s;
+.s3 {
+    bottom: 15px;
+    left: 50%;
 }
 
-.ring.on{
-  opacity:1;
-  transform:translateX(-50%) scale(1) rotateX(0deg);
+.s4 {
+    top: 50%;
+    left: 5px;
 }
 
-.ring.gold{
-  border:12px solid #d7a33d;
-  box-shadow:
-    inset 0 3px 3px rgba(255,250,201,.9),
-    inset 0 -5px 7px rgba(88,48,7,.65),
-    0 0 0 2px #76500f,
-    0 8px 18px rgba(0,0,0,.22),
-    0 0 18px rgba(226,172,71,.28);
+/* caption */
+
+.caption {
+
+    color: #918983;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+    max-width: 285px;
+
+    margin-bottom: 25px;
 }
 
-.ring.pink{
-  border:11px solid #b84d74;
-  box-shadow:
-    inset 0 3px 3px rgba(255,225,236,.8),
-    inset 0 -5px 8px rgba(76,18,39,.6),
-    0 0 0 2px #67213b,
-    0 8px 18px rgba(0,0,0,.2);
+.caption strong {
+
+    color: #d4b783;
+
+    font-weight: 400;
 }
 
-.ring.gem{
-  border:9px solid #d7a33d;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 13px,
-      rgba(255,245,187,.9) 14px 17px,
-      transparent 18px 29px
-    );
-  box-shadow:
-    inset 0 3px 3px #fff2ad,
-    inset 0 -5px 7px #70420b,
-    0 0 0 2px #76500f,
-    0 0 16px rgba(230,180,75,.3);
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.message {
+
+    text-align: center;
+
+    max-width: 340px;
 }
 
-.ring:nth-child(1){top:0}
-.ring:nth-child(2){top:40px}
-.ring:nth-child(3){top:80px}
-.ring:nth-child(4){top:120px}
+.message .quote {
 
-.progress{
-  width:min(310px,88vw);
-  height:3px;
-  background:rgba(255,255,255,.09);
-  border-radius:10px;
-  overflow:hidden;
-  margin:5px auto 16px;
+    color: #8e827a;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
 }
 
-.progress > div{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#d88aa4,#e6b14f);
-  transition:width .65s ease;
+.message h2 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(44px, 13vw, 65px);
+
+    line-height: .92;
+
+    font-weight: 300;
+
+    letter-spacing: -2px;
+
+    margin: 0 0 30px;
 }
 
-.jewelTitle{
-  text-align:center;
-  margin-bottom:2px;
-  font-size:29px;
-  font-weight:500;
+.message p {
+
+    color: #aaa19b;
+
+    font-size: 13px;
+
+    line-height: 1.9;
+
+    margin: 8px auto;
+
+    max-width: 300px;
 }
 
-.jewelSub{
-  text-align:center;
-  color:#cdbcc4;
-  font-size:13px;
-  margin-bottom:2px;
+/* =========================================================
+   FINAL
+   ========================================================= */
+
+.final {
+
+    text-align: center;
 }
 
-.actionRow{
-  width:min(330px,90vw);
-  display:flex;
-  flex-direction:column;
-  gap:9px;
-  margin-top:-3px;
+.final .name {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(65px, 20vw, 100px);
+
+    font-weight: 300;
+
+    letter-spacing: -4px;
+
+    line-height: .8;
+
+    margin-bottom: 35px;
 }
 
-/* final */
-.finalIcon{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  border:11px solid #d9a94a;
-  box-shadow:
-    0 0 0 3px #714a12,
-    0 0 65px rgba(219,169,71,.35);
-  position:relative;
-  margin-bottom:34px;
-  animation:floatIcon 3s ease-in-out infinite;
+.final .rule {
+
+    width: 38px;
+
+    height: 1px;
+
+    background: #a78961;
+
+    margin:
+        0 auto 28px;
 }
 
-.finalIcon:after{
-  content:"";
-  position:absolute;
-  inset:24px;
-  border-radius:50%;
-  border:2px solid rgba(255,244,193,.75);
+.final p {
+
+    color: #9f9690;
+
+    font-size: 13px;
+
+    line-height: 1.9;
+
+    max-width: 300px;
+
+    margin: auto;
 }
 
-@keyframes floatIcon{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
+.final .signature {
+
+    margin-top: 35px;
+
+    color: #c6a879;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 24px;
 }
 
-.finalTitle{
-  text-align:center;
-  font-size:51px;
-  line-height:.92;
-  font-weight:500;
-  letter-spacing:-1.6px;
-  margin:0 0 23px;
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+
+    position: absolute;
+
+    bottom:
+        calc(17px + env(safe-area-inset-bottom));
+
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    color: #514b48;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
 }
 
-.finalText{
-  max-width:335px;
-  text-align:center;
-  color:#d8cbd1;
-  font-size:14px;
-  line-height:1.9;
-  margin:6px 0;
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-height:680px){
+
+    .letter{
+        height:470px;
+    }
+
+    .jewelry{
+        height:250px;
+    }
+
+    .bangle{
+        width:200px;
+        height:200px;
+    }
+
+    .bangle2{
+        width:155px;
+        height:155px;
+    }
+
+    .stones{
+        width:200px;
+        height:200px;
+    }
+
 }
 
-.signature{
-  margin-top:26px;
-  color:#e5a7bc;
-  font-family:"Cormorant Garamond",serif;
-  font-size:26px;
-  text-align:center;
-}
-
-.sparkleFinal{
-  margin-top:19px;
-  color:#e4ad4f;
-  font-size:19px;
-  letter-spacing:10px;
-  animation:blink 1.8s infinite;
-}
-
-@keyframes blink{
-  50%{opacity:.35}
-}
-
-#toast{
-  position:fixed;
-  left:50%;
-  bottom:20px;
-  transform:translate(-50%,20px);
-  background:rgba(24,14,20,.9);
-  border:1px solid rgba(255,255,255,.12);
-  backdrop-filter:blur(14px);
-  padding:11px 17px;
-  border-radius:999px;
-  font-size:12px;
-  color:#f1e6ea;
-  opacity:0;
-  pointer-events:none;
-  transition:.35s ease;
-  z-index:20;
-  white-space:nowrap;
-}
-
-#toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
-.particle{
-  position:fixed;
-  z-index:30;
-  pointer-events:none;
-  font-size:18px;
-  animation:particle 1.35s ease-out forwards;
-}
-
-@keyframes particle{
-  from{
-    opacity:1;
-    transform:translate(0,0) scale(1) rotate(0deg);
-  }
-  to{
-    opacity:0;
-    transform:translate(var(--x),var(--y)) scale(.2) rotate(220deg);
-  }
-}
-
-@media(max-height:700px){
-  .jewelStage{height:395px}
-  .hand{transform:translateX(-50%) rotate(-8deg) scale(.86);top:18px}
-  .banglesReal{transform:translateX(-50%) rotate(-8deg) scale(.86)}
-}
-
-@media(max-width:360px){
-  .introTitle{font-size:45px}
-  .finalTitle{font-size:44px}
-}
 </style>
 </head>
 
 <body>
+
 <div id="app">
-<div class="noise"></div>
 
-<!-- INTRO -->
-<section id="intro" class="screen active">
-  <div class="eyebrow">A little surprise for Vanshika</div>
+<div class="grain"></div>
 
-  <h1 class="serif introTitle">
-    For the girl<br>
-    who loves bangles.
-  </h1>
+<!-- =====================================================
+     SCREEN 1
+====================================================== -->
 
-  <p class="introText">
-    I couldn't be there to give you something in person...
-    so I made a little surprise that could travel the distance.
-  </p>
+<section id="s1" class="screen active">
 
-  <button class="primary" onclick="openGift()">
-    Open your gift
-  </button>
+    <div class="label">
+        PRIVATE · FOR VANSHIKA
+    </div>
 
-  <div class="floatingHeart">♥</div>
+    <div class="opening">
+
+        <div class="micro">
+            I made something for you
+        </div>
+
+        <h1>
+            Vanshika
+        </h1>
+
+        <div class="line"></div>
+
+        <p>
+            It's small.<br>
+            It's a little unnecessary.<br>
+            And I hope you like it.
+        </p>
+
+        <button class="open" onclick="go('s2')">
+            Open
+        </button>
+
+    </div>
+
+    <div class="footer">
+        made somewhere far away
+    </div>
+
 </section>
 
-<!-- GIFT -->
-<section id="gift" class="screen">
-  <div class="eyebrow">Something small, just for you</div>
 
-  <div class="giftScene">
-    <div class="giftGlow"></div>
+<!-- =====================================================
+     SCREEN 2 — LETTER
+====================================================== -->
 
-    <div class="box" id="giftBox">
-      <div class="boxBody"></div>
-      <div class="ribbon"></div>
-      <div class="lid"></div>
-      <div class="bow"></div>
+<section id="s2" class="screen">
+
+    <div class="label">
+        A NOTE
     </div>
-  </div>
 
-  <h2 class="serif" style="font-size:34px;font-weight:500;margin:0 0 8px">
-    Made for Vanshika
-  </h2>
+    <div class="letter">
 
-  <p class="tapHint">Tap the box</p>
-</section>
+        <div class="letterTop">
+            For Vanshika
+        </div>
 
-<!-- JEWELRY -->
-<section id="jewelry" class="screen">
+        <div>
 
-  <div class="eyebrow">For your wrist</div>
+            <h2>
+                Some things<br>
+                don't need<br>
+                a reason.
+            </h2>
 
-  <div class="jewelTitle serif">One at a time...</div>
-  <div class="jewelSub">Tap the button and watch them come alive.</div>
+            <p>
+                I remembered that
+                you like bangles.
 
-  <div class="progress">
-    <div id="progress"></div>
-  </div>
+                <br><br>
 
-  <div class="jewelStage">
-    <div class="ambient"></div>
+                And somehow that tiny
+                detail stayed in my head.
+            </p>
 
-    <div class="wristShadow"></div>
+        </div>
 
-    <div class="hand"></div>
+        <div class="letterBottom">
+            KEEP READING
+        </div>
 
-    <div class="banglesReal">
-      <div class="ring gold"></div>
-      <div class="ring pink"></div>
-      <div class="ring gem"></div>
-      <div class="ring gold"></div>
     </div>
-  </div>
 
-  <div class="actionRow">
-    <button class="primary" id="bangleBtn" onclick="addBangle()">
-      Put on the first one
+    <button class="next" onclick="go('s3')">
+        Turn the page →
     </button>
-  </div>
-</section>
-
-<!-- FINAL -->
-<section id="final" class="screen">
-
-  <div class="finalIcon"></div>
-
-  <h1 class="serif finalTitle">
-    Vanshika,<br>
-    one day these<br>
-    won't be on a screen.
-  </h1>
-
-  <p class="finalText">
-    Until then, let this little gift remind you
-    that someone is thinking about you from far away.
-  </p>
-
-  <p class="finalText">
-    And yes... I still owe you the real bangles.
-  </p>
-
-  <div class="signature">
-    — someone who likes you a little too much
-  </div>
-
-  <div class="sparkleFinal">✦ · ✦</div>
-
-  <button class="primary" style="margin-top:28px" onclick="location.reload()">
-    See it again
-  </button>
 
 </section>
 
-<div id="toast"></div>
+
+<!-- =====================================================
+     SCREEN 3 — JEWEL
+====================================================== -->
+
+<section id="s3" class="screen">
+
+    <div class="label">
+        ONE LITTLE THING
+    </div>
+
+    <div class="editorial">
+
+        <div class="tiny">
+            I remembered
+        </div>
+
+        <h2>
+            The bangles.
+        </h2>
+
+        <div class="jewelry">
+
+            <div class="jewelryShadow"></div>
+
+            <div class="bangle"></div>
+
+            <div class="bangle2"></div>
+
+            <div class="stones">
+
+                <div class="stone s1"></div>
+                <div class="stone s2"></div>
+                <div class="stone s3"></div>
+                <div class="stone s4"></div>
+
+            </div>
+
+        </div>
+
+        <div class="caption">
+
+            <strong>
+                Not the real ones.
+            </strong>
+
+            <br>
+
+            Just a little reminder that
+            I was thinking about you.
+
+        </div>
+
+        <button class="open" onclick="go('s4')">
+            There's more
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SCREEN 4 — MESSAGE
+====================================================== -->
+
+<section id="s4" class="screen">
+
+    <div class="label">
+        HONESTLY
+    </div>
+
+    <div class="message">
+
+        <div class="quote">
+            one thing I wanted to say
+        </div>
+
+        <h2>
+            Distance<br>
+            is annoying.
+        </h2>
+
+        <p>
+            Because sometimes you just want
+            to give someone something
+            instead of sending another text.
+        </p>
+
+        <p>
+            So this is my slightly
+            ridiculous way of doing that.
+        </p>
+
+        <br>
+
+        <button class="open" onclick="go('s5')">
+            One last thing
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SCREEN 5 — FINAL
+====================================================== -->
+
+<section id="s5" class="screen">
+
+    <div class="label">
+        FOR YOU
+    </div>
+
+    <div class="final">
+
+        <div class="name">
+            Vanshika
+        </div>
+
+        <div class="rule"></div>
+
+        <p>
+            One day, these won't be
+            on a screen.
+        </p>
+
+        <p>
+            Until then,
+            I hope this made you smile.
+        </p>
+
+        <div class="signature">
+            — from me, to you.
+        </div>
+
+        <div style="
+            margin-top:32px;
+            color:#b9965d;
+            font-size:14px;
+            letter-spacing:8px;
+        ">
+            · · ·
+        </div>
+
+    </div>
+
+</section>
+
 
 <script>
-let bangleCount = 0;
-let audioCtx = null;
 
-function screen(name){
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.getElementById(name).classList.add("active");
-}
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
-function sound(freq=620, duration=.08){
-  try{
-    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function go(id){
 
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+    const current =
+        document.querySelector(".screen.active");
 
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(
-      freq * 1.65,
-      audioCtx.currentTime + duration
-    );
+    const next =
+        document.getElementById(id);
 
-    gain.gain.setValueAtTime(.0001, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(
-      .075,
-      audioCtx.currentTime + .012
-    );
-    gain.gain.exponentialRampToValueAtTime(
-      .0001,
-      audioCtx.currentTime + duration
-    );
+    if(!next) return;
 
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-
-    osc.start();
-    osc.stop(audioCtx.currentTime + duration + .02);
-  }catch(e){}
-}
-
-function openGift(){
-
-  sound(420,.12);
-
-  screen("gift");
-
-  setTimeout(() => {
-
-    const box = document.getElementById("giftBox");
-
-    box.classList.add("boxOpen");
-
-    sound(690,.16);
-
-    setTimeout(() => {
-      screen("jewelry");
-      burst(18);
-    }, 1050);
-
-  }, 450);
-}
-
-function addBangle(){
-
-  if(bangleCount >= 4) return;
-
-  const rings = document.querySelectorAll(".ring");
-
-  rings[bangleCount].classList.add("on");
-
-  bangleCount++;
-
-  document.getElementById("progress").style.width =
-    ((bangleCount / 4) * 100) + "%";
-
-  const button = document.getElementById("bangleBtn");
-
-  const text = [
-    "One more...",
-    "It's getting prettier...",
-    "Almost there...",
-    "One last sparkle..."
-  ];
-
-  button.innerText = text[bangleCount - 1];
-
-  sound(560 + bangleCount * 95,.11);
-
-  burst(10);
-
-  if(bangleCount === 4){
+    if(current){
+        current.classList.remove("active");
+    }
 
     setTimeout(() => {
 
-      button.innerText = "One last thing...";
+        next.classList.add("active");
 
-      button.onclick = () => {
-
-        sound(780,.18);
-        burst(30);
-
-        setTimeout(() => {
-          screen("final");
-        }, 650);
-
-      };
-
-    }, 800);
-  }
+    }, 120);
 }
 
-function burst(amount){
 
-  const chars = ["✦","·","✧","♥"];
+/* =========================================================
+   SUBTLE PARALLAX ON JEWEL
+========================================================= */
 
-  for(let i=0;i<amount;i++){
+const jewel =
+    document.querySelector(".jewelry");
 
-    const p = document.createElement("div");
+document.addEventListener(
+    "touchmove",
+    function(e){
 
-    p.className = "particle";
+        if(!jewel) return;
 
-    p.innerText =
-      chars[Math.floor(Math.random()*chars.length)];
+        const touch =
+            e.touches[0];
 
-    p.style.left =
-      (35 + Math.random()*30) + "%";
+        const x =
+            (touch.clientX /
+            window.innerWidth - .5);
 
-    p.style.top =
-      (35 + Math.random()*25) + "%";
+        const y =
+            (touch.clientY /
+            window.innerHeight - .5);
 
-    p.style.setProperty(
-      "--x",
-      ((Math.random()-.5)*240) + "px"
-    );
+        jewel.style.transform =
+            `translate(${x*8}px,${y*6}px)`;
 
-    p.style.setProperty(
-      "--y",
-      (-80-Math.random()*210) + "px"
-    );
+    },
+    {passive:true}
+);
 
-    p.style.color =
-      Math.random() > .5 ? "#e4b04d" : "#e5a5ba";
 
-    document.body.appendChild(p);
+/* =========================================================
+   DESKTOP MOUSE PARALLAX
+========================================================= */
 
-    setTimeout(() => p.remove(),1450);
-  }
-}
+document.addEventListener(
+    "mousemove",
+    function(e){
 
-/* tap anywhere on the gift box */
-document.getElementById("gift").addEventListener("click", function(e){
+        if(!jewel) return;
 
-  if(e.target.closest("button")) return;
+        const x =
+            (e.clientX /
+            window.innerWidth - .5);
 
-  if(!document.getElementById("giftBox").classList.contains("boxOpen")){
-    openGift();
-  }
-});
+        const y =
+            (e.clientY /
+            window.innerHeight - .5);
+
+        jewel.style.transform =
+            `translate(${x*8}px,${y*6}px)`;
+    }
+);
 
 </script>
 
 </div>
+
 </body>
 </html>
 """
 
-components.html(APP, height=820, scrolling=False)
+components.html(
+    HTML,
+    height=900,
+    scrolling=False
+)
