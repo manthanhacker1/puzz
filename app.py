@@ -1,87 +1,66 @@
-from flask import Flask, render_template_string
+import streamlit as st
+import time
 
-app = Flask(__name__)
+# ============================================================
+# PAGE CONFIG
+# ============================================================
 
-HTML = r"""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+st.set_page_config(
+    page_title="For Vanshika ♡",
+    page_icon="💗",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
 
-<title>For You ✨</title>
+# ============================================================
+# CUSTOM CSS
+# ============================================================
 
+st.markdown("""
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
 
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
+/* ---------- GLOBAL ---------- */
 
-html, body {
-    margin: 0;
-    width: 100%;
-    min-height: 100%;
-    overflow-x: hidden;
-}
-
-body {
+.stApp {
     background:
-        radial-gradient(circle at 20% 10%, rgba(255, 182, 193, .18), transparent 30%),
-        radial-gradient(circle at 80% 80%, rgba(255, 215, 150, .13), transparent 30%),
-        #100b13;
-    color: #fff;
-    font-family: "DM Sans", sans-serif;
+        radial-gradient(
+            circle at 10% 5%,
+            rgba(255, 105, 150, 0.20),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(226, 177, 80, 0.14),
+            transparent 30%
+        ),
+        #100a12;
+
+    color: white;
 }
 
-.page {
-    min-height: 100svh;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+.block-container {
+    max-width: 480px !important;
+    padding: 25px 18px 45px !important;
 }
 
-.glow {
-    position: fixed;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: .18;
-    pointer-events: none;
+header {
+    background: transparent !important;
 }
 
-.glow.one {
-    background: #ff5f91;
-    top: -100px;
-    left: -100px;
+footer {
+    visibility: hidden;
 }
 
-.glow.two {
-    background: #d8a04a;
-    bottom: -100px;
-    right: -100px;
-}
-
-.container {
-    width: min(100%, 480px);
-    min-height: 100svh;
-    padding: 28px 20px 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    z-index: 2;
+* {
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* ---------- INTRO ---------- */
 
-#intro {
-    width: 100%;
-    min-height: calc(100svh - 68px);
+.hero {
+    min-height: 72vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -90,304 +69,360 @@ body {
 }
 
 .small {
-    color: #d9bfc9;
-    font-size: 12px;
+    color: #d9b8c5;
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
-h1 {
-    font-family: "Cormorant Garamond", serif;
-    font-size: clamp(48px, 15vw, 76px);
-    line-height: .9;
-    font-weight: 500;
-    margin: 0;
+.hero h1 {
+    font-family: "Cormorant Garamond", serif !important;
+    font-size: 56px !important;
+    line-height: .92 !important;
+    font-weight: 500 !important;
     letter-spacing: -2px;
+    margin: 0;
 }
 
-.subtitle {
-    max-width: 330px;
-    color: #d8ccd2;
-    font-size: 15px;
-    line-height: 1.7;
-    margin: 22px 0 34px;
+.hero p {
+    max-width: 340px;
+    color: #d9cbd2;
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    line-height: 1.85;
+    margin: 28px 0 32px;
 }
 
-.start-btn {
-    border: 1px solid rgba(255,255,255,.2);
-    background: linear-gradient(135deg, #e99aaf, #b76b84);
+/* ---------- BUTTON ---------- */
+
+div.stButton > button {
+    width: 100%;
+    min-height: 55px;
+
+    border-radius: 18px !important;
+
+    border: 1px solid rgba(255,255,255,.16);
+
+    background:
+        linear-gradient(
+            135deg,
+            #e99aae,
+            #aa5f7b
+        );
+
     color: white;
-    padding: 16px 27px;
-    border-radius: 100px;
+
+    font-family: "DM Sans", sans-serif;
     font-size: 15px;
     font-weight: 600;
-    box-shadow: 0 15px 45px rgba(201, 96, 129, .3);
-    cursor: pointer;
-    transition: .25s;
+
+    box-shadow:
+        0 15px 45px rgba(190,80,120,.25);
+
+    transition: all .2s ease;
 }
 
-.start-btn:active {
-    transform: scale(.95);
+div.stButton > button:hover {
+    border-color: rgba(255,255,255,.30);
+    color: white;
+    transform: translateY(-1px);
 }
+
+div.stButton > button:active {
+    transform: scale(.97);
+}
+
+/* ---------- HEART ---------- */
 
 .heart {
-    margin-top: 28px;
-    font-size: 25px;
-    animation: float 2.5s ease-in-out infinite;
-}
-
-@keyframes float {
-    50% { transform: translateY(-8px); }
+    margin-top: 25px;
+    font-size: 27px;
+    color: #e7a8bc;
 }
 
 /* ---------- EXPERIENCE ---------- */
 
-#experience {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
+.title {
     text-align: center;
-}
-
-.top {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.brand {
     font-family: "Cormorant Garamond", serif;
-    font-size: 25px;
+    font-size: 31px;
+    margin-bottom: 3px;
 }
 
 .counter {
+    text-align: center;
+    color: #cdbbc4;
+    font-family: "DM Sans", sans-serif;
     font-size: 12px;
-    color: #c8b8c0;
+    margin-bottom: 8px;
 }
 
 .instruction {
+    text-align: center;
     color: #d9cbd1;
+    font-family: "DM Sans", sans-serif;
     font-size: 14px;
-    line-height: 1.6;
-    max-width: 310px;
+    line-height: 1.7;
 }
 
 /* ---------- WRIST ---------- */
 
-.wrist-area {
+.wrist-box {
     width: 100%;
-    height: 390px;
+    height: 400px;
+
     position: relative;
+
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin: 10px 0 12px;
+    align-items: center;
 }
 
 .wrist {
+    position: absolute;
+
     width: 105px;
-    height: 300px;
+    height: 295px;
+
     border-radius: 55px;
+
     background:
         linear-gradient(
             90deg,
-            #9d5c43,
-            #d89472 25%,
-            #f0b28d 50%,
-            #c7795c 75%,
-            #92533f
+            #92503c,
+            #cf8466 25%,
+            #efb08b 50%,
+            #c47558 75%,
+            #884837
         );
+
     box-shadow:
-        inset 0 0 20px rgba(70,25,15,.25),
-        0 20px 50px rgba(0,0,0,.35);
-    position: relative;
-    transform: rotate(2deg);
+        inset 0 0 22px rgba(50,15,8,.30),
+        0 25px 60px rgba(0,0,0,.42);
 }
+
+/* Wrist highlight */
 
 .wrist::after {
     content: "";
+
     position: absolute;
     inset: 0;
+
     border-radius: inherit;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,.15),
-        transparent
-    );
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.12),
+            transparent
+        );
 }
 
-.bangles {
-    position: absolute;
-    width: 155px;
-    height: 330px;
-    pointer-events: none;
-}
+/* ---------- BANGLES ---------- */
 
 .bangle {
     position: absolute;
-    width: 155px;
-    height: 34px;
+
+    width: 158px;
+    height: 36px;
+
     border-radius: 50%;
-    left: 0;
+
     opacity: 0;
-    transform: translateY(-160px) rotate(2deg) scale(.7);
+
+    transform:
+        translateY(-150px)
+        scale(.65);
+
     transition:
-        transform .75s cubic-bezier(.18,.89,.32,1.28),
-        opacity .35s;
+        opacity .25s ease,
+        transform .75s cubic-bezier(.18,.89,.32,1.28);
 }
 
 .bangle.show {
     opacity: 1;
-    transform: translateY(0) rotate(2deg) scale(1);
+
+    transform:
+        translateY(0)
+        scale(1);
 }
 
-.bangle:nth-child(1) {
-    top: 58px;
-    border: 8px solid #e7b85a;
+/* GOLD */
+
+.b1 {
+    top: 78px;
+
+    border: 8px solid #e4b34f;
+
     box-shadow:
-        0 0 0 2px #7b4b13,
-        inset 0 0 5px #fff4bc,
-        0 0 15px rgba(231,184,90,.35);
+        0 0 0 2px #74480f,
+        inset 0 0 6px #fff1a8,
+        0 0 18px rgba(228,179,79,.45);
 }
 
-.bangle:nth-child(2) {
-    top: 101px;
-    border: 8px solid #cf7190;
+/* PINK */
+
+.b2 {
+    top: 121px;
+
+    border: 8px solid #c95f84;
+
     box-shadow:
-        0 0 0 2px #7b304b,
-        inset 0 0 5px #ffd7e4,
-        0 0 15px rgba(207,113,144,.35);
+        0 0 0 2px #68283f,
+        inset 0 0 6px #ffd5e2,
+        0 0 18px rgba(201,95,132,.45);
 }
 
-.bangle:nth-child(3) {
-    top: 144px;
-    border: 7px solid #e6b955;
+/* GOLD */
+
+.b3 {
+    top: 164px;
+
+    border: 7px solid #e7b650;
+
     box-shadow:
-        0 0 0 2px #71480e,
-        inset 0 0 5px #fff6c7,
-        0 0 15px rgba(230,185,85,.35);
+        0 0 0 2px #71470e,
+        inset 0 0 6px #fff4b6,
+        0 0 18px rgba(231,182,80,.45);
 }
 
-.bangle:nth-child(4) {
-    top: 187px;
-    border: 8px solid #a9466d;
+/* DARK PINK */
+
+.b4 {
+    top: 207px;
+
+    border: 8px solid #a9436d;
+
     box-shadow:
-        0 0 0 2px #5f1839,
-        inset 0 0 5px #ffd1e0,
-        0 0 15px rgba(169,70,109,.35);
+        0 0 0 2px #5c1938,
+        inset 0 0 6px #ffd1df,
+        0 0 18px rgba(169,67,109,.45);
 }
 
-.bangle:nth-child(5) {
-    top: 230px;
-    border: 7px solid #d8a447;
+/* GOLD */
+
+.b5 {
+    top: 250px;
+
+    border: 7px solid #d6a043;
+
     box-shadow:
-        0 0 0 2px #70420c,
-        inset 0 0 5px #fff0ae,
-        0 0 15px rgba(216,164,71,.35);
-}
-
-.tap-btn {
-    width: 100%;
-    max-width: 320px;
-    padding: 17px;
-    border: 1px solid rgba(255,255,255,.16);
-    border-radius: 18px;
-    background: rgba(255,255,255,.075);
-    backdrop-filter: blur(15px);
-    color: white;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.tap-btn:active {
-    transform: scale(.97);
+        0 0 0 2px #70410c,
+        inset 0 0 6px #fff0a9,
+        0 0 18px rgba(214,160,67,.45);
 }
 
 /* ---------- FINAL ---------- */
 
-#final {
-    display: none;
-    width: 100%;
-    min-height: 85svh;
-    align-items: center;
-    justify-content: center;
+.final {
+    min-height: 78vh;
+
+    display: flex;
     flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
     text-align: center;
 }
 
 .final-ring {
-    width: 120px;
-    height: 120px;
+    width: 108px;
+    height: 108px;
+
     border-radius: 50%;
-    border: 12px solid #d9aa4f;
-    box-shadow:
-        0 0 0 3px #7b4b13,
-        0 0 50px rgba(218,169,78,.35);
+
+    border: 11px solid #d9aa4f;
+
     margin-bottom: 35px;
-    animation: pulse 2.2s infinite;
+
+    box-shadow:
+        0 0 0 3px #754a12,
+        0 0 55px rgba(220,170,75,.42);
+
+    animation:
+        pulse 2.2s ease-in-out infinite;
 }
 
 @keyframes pulse {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
     50% {
-        transform: scale(1.05);
-        box-shadow:
-            0 0 0 3px #7b4b13,
-            0 0 70px rgba(218,169,78,.55);
+        transform: scale(1.06);
     }
 }
 
-.final-title {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 49px;
-    line-height: 1;
-    margin-bottom: 20px;
+.final h1 {
+    font-family: "Cormorant Garamond", serif !important;
+
+    font-size: 49px !important;
+
+    line-height: 1 !important;
+
+    font-weight: 500 !important;
+
+    letter-spacing: -1px;
+
+    margin: 0 0 25px;
 }
 
-.final-text {
-    color: #d9ccd2;
-    line-height: 1.8;
-    font-size: 15px;
-    max-width: 330px;
+.final p {
+    max-width: 340px;
+
+    color: #d8cbd1;
+
+    font-family: "DM Sans", sans-serif;
+
+    font-size: 14px;
+
+    line-height: 1.9;
+
+    margin: 8px auto;
 }
 
 .signature {
     margin-top: 28px;
-    color: #e7b3c3;
-    font-family: "Cormorant Garamond", serif;
-    font-size: 24px;
+
+    color: #e3a8ba;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 25px;
 }
 
-/* ---------- PARTICLES ---------- */
+/* ---------- MOBILE ---------- */
 
-.particle {
-    position: fixed;
-    pointer-events: none;
-    z-index: 5;
-    animation: particle 1.2s forwards ease-out;
-}
+@media (max-width: 500px) {
 
-@keyframes particle {
-    0% {
-        opacity: 1;
-        transform: translate(0,0) scale(1);
+    .hero {
+        min-height: 70vh;
     }
-    100% {
-        opacity: 0;
-        transform: translate(
-            var(--x),
-            var(--y)
-        ) scale(.2) rotate(180deg);
+
+    .hero h1 {
+        font-size: 51px !important;
+    }
+
+    .wrist-box {
+        height: 370px;
     }
 }
 
 @media (max-height: 680px) {
-    .wrist-area {
+
+    .hero {
+        min-height: 65vh;
+    }
+
+    .wrist-box {
         height: 330px;
     }
 
@@ -395,216 +430,227 @@ h1 {
         height: 260px;
     }
 
-    .bangles {
-        transform: scale(.85);
+    .bangle {
+        transform: translateY(-130px) scale(.85);
+    }
+
+    .bangle.show {
+        transform: translateY(0) scale(.85);
     }
 }
+
 </style>
-</head>
+""", unsafe_allow_html=True)
 
-<body>
 
-<div class="page">
+# ============================================================
+# SESSION STATE
+# ============================================================
 
-    <div class="glow one"></div>
-    <div class="glow two"></div>
+if "page" not in st.session_state:
+    st.session_state.page = "intro"
 
-    <main class="container">
+if "count" not in st.session_state:
+    st.session_state.count = 0
 
-        <!-- INTRO -->
-        <section id="intro">
 
-            <div class="small">a tiny surprise</div>
+# ============================================================
+# INTRO PAGE
+# ============================================================
 
-            <h1>For the girl<br>who loves bangles.</h1>
+if st.session_state.page == "intro":
 
-            <p class="subtitle">
-                Distance made one thing difficult...
-                giving you something in person.
-                So I made you something instead.
-            </p>
+    st.markdown("""
+    <div class="hero">
 
-            <button class="start-btn" onclick="startExperience()">
-                Open your surprise ✨
-            </button>
+        <div class="small">
+            a little surprise for Vanshika
+        </div>
 
-            <div class="heart">♡</div>
+        <h1>
+            For Vanshika,<br>
+            the girl who loves bangles. ♡
+        </h1>
 
-        </section>
+        <p>
+            I couldn't be there to put bangles
+            on your wrist myself...
 
+            <br><br>
 
-        <!-- EXPERIENCE -->
-        <section id="experience">
+            So I made you a little something instead. ✨
+        </p>
 
-            <div class="top">
-                <div class="brand">For You ♡</div>
-                <div class="counter">
-                    <span id="count">0</span> / 5
-                </div>
-            </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-            <p class="instruction">
-                Tap below and let me put these on your wrist...
-            </p>
+    if st.button(
+        "Open your surprise ✨",
+        use_container_width=True
+    ):
 
-            <div class="wrist-area">
+        st.session_state.page = "bangles"
 
-                <div class="wrist"></div>
+        st.rerun()
 
-                <div class="bangles">
-                    <div class="bangle"></div>
-                    <div class="bangle"></div>
-                    <div class="bangle"></div>
-                    <div class="bangle"></div>
-                    <div class="bangle"></div>
-                </div>
+    st.markdown("""
+    <div class="heart">
+        ♡
+    </div>
+    """, unsafe_allow_html=True)
 
-            </div>
 
-            <button class="tap-btn" id="tapButton" onclick="addBangle()">
-                Add the first one ✨
-            </button>
+# ============================================================
+# BANGLE PAGE
+# ============================================================
 
-        </section>
+elif st.session_state.page == "bangles":
 
+    st.markdown("""
+    <div class="title">
+        For You, Vanshika ♡
+    </div>
+    """, unsafe_allow_html=True)
 
-        <!-- FINAL -->
-        <section id="final">
+    st.markdown(
+        f"""
+        <div class="counter">
+            {st.session_state.count} / 5
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-            <div class="final-ring"></div>
+    st.markdown("""
+    <div class="instruction">
+        Tap below and let me put these on your wrist...
+    </div>
+    """, unsafe_allow_html=True)
 
-            <div class="final-title">
-                If distance<br>had a sound...
-            </div>
+    # ----------------------------------------
+    # Generate bangles
+    # ----------------------------------------
 
-            <p class="final-text">
-                I think it would sound like bangles
-                softly going <i>chhan chhan</i> on your wrist.
+    bangle_classes = [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5"
+    ]
 
-                <br><br>
+    bangles = ""
 
-                Until I can give you the real ones,
-                consider these a little reminder that
-                someone somewhere is thinking about you. ♡
-            </p>
+    for index, class_name in enumerate(bangle_classes):
 
-            <div class="signature">
-                — from someone who likes you a little too much ✨
-            </div>
+        if index < st.session_state.count:
+            visible = "show"
+        else:
+            visible = ""
 
-        </section>
+        bangles += f"""
+        <div class="bangle {class_name} {visible}"></div>
+        """
 
-    </main>
-</div>
+    # ----------------------------------------
+    # Wrist
+    # ----------------------------------------
 
+    st.markdown(
+        f"""
+        <div class="wrist-box">
 
-<script>
+            <div class="wrist"></div>
 
-let current = 0;
+            {bangles}
 
-const messages = [
-    "Add the first one ✨",
-    "One more... 🌸",
-    "It's getting prettier ✨",
-    "Almost there ♡",
-    "One last one...",
-    "Your little surprise is ready ♡"
-];
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-function startExperience() {
+    # ----------------------------------------
+    # Button text
+    # ----------------------------------------
 
-    document.getElementById("intro").style.display = "none";
-    document.getElementById("experience").style.display = "flex";
+    button_text = [
+        "Add the first one ✨",
+        "One more... 🌸",
+        "It's getting prettier ✨",
+        "Almost there ♡",
+        "One last one...",
+        "Your little surprise is ready ♡"
+    ]
 
-    if (navigator.vibrate) {
-        navigator.vibrate(30);
-    }
-}
+    current = st.session_state.count
 
-function addBangle() {
+    if current < 5:
 
-    if (current >= 5) return;
+        if st.button(
+            button_text[current],
+            use_container_width=True
+        ):
 
-    current++;
+            st.session_state.count += 1
 
-    const bangle =
-        document.querySelectorAll(".bangle")[current - 1];
+            st.rerun()
 
-    bangle.classList.add("show");
+    else:
 
-    document.getElementById("count").innerText = current;
+        if st.button(
+            "See what I wanted to tell you ♡",
+            use_container_width=True
+        ):
 
-    document.getElementById("tapButton").innerText =
-        messages[current];
+            time.sleep(.5)
 
-    createParticles();
+            st.session_state.page = "final"
 
-    if (navigator.vibrate) {
-        navigator.vibrate([20, 30, 20]);
-    }
+            st.rerun()
 
-    if (current === 5) {
 
-        setTimeout(() => {
+# ============================================================
+# FINAL PAGE
+# ============================================================
 
-            document.getElementById("experience").style.display = "none";
-            document.getElementById("final").style.display = "flex";
+elif st.session_state.page == "final":
 
-            createParticles(35);
+    st.markdown("""
+    <div class="final">
 
-        }, 1100);
-    }
-}
+        <div class="final-ring"></div>
 
-function createParticles(amount = 10) {
+        <h1>
+            Vanshika,<br>
+            if distance had a sound...
+        </h1>
 
-    const symbols = ["✦", "✧", "♡", "·", "✶"];
+        <p>
+            I think it would sound like bangles
+            softly going <i>chhan chhan</i>
+            on your wrist.
+        </p>
 
-    for (let i = 0; i < amount; i++) {
+        <p>
+            Until I can give you the real ones,
+            let these be a tiny reminder
+            that someone somewhere is thinking
+            about you. ♡
+        </p>
 
-        const p = document.createElement("div");
+        <div class="signature">
+            — for Vanshika, with a little extra care ✨
+        </div>
 
-        p.className = "particle";
+    </div>
+    """, unsafe_allow_html=True)
 
-        p.innerText =
-            symbols[Math.floor(Math.random() * symbols.length)];
+    if st.button(
+        "Replay the surprise ♡",
+        use_container_width=True
+    ):
 
-        p.style.left =
-            (35 + Math.random() * 30) + "%";
+        st.session_state.page = "intro"
+        st.session_state.count = 0
 
-        p.style.top =
-            (45 + Math.random() * 15) + "%";
-
-        p.style.fontSize =
-            (10 + Math.random() * 14) + "px";
-
-        p.style.setProperty(
-            "--x",
-            ((Math.random() - .5) * 220) + "px"
-        );
-
-        p.style.setProperty(
-            "--y",
-            (-80 - Math.random() * 180) + "px"
-        );
-
-        document.body.appendChild(p);
-
-        setTimeout(() => p.remove(), 1400);
-    }
-}
-
-</script>
-
-</body>
-</html>
-"""
-
-
-@app.route("/")
-def home():
-    return render_template_string(HTML)
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+        st.rerun()
