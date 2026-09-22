@@ -30,9 +30,9 @@ button{font:inherit;cursor:pointer}
 .tabs{display:flex;gap:7px;overflow:auto;padding:15px 18px 4px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
 .tab{border:1px solid #ddd3cc;background:#fff;border-radius:100px;padding:9px 14px;font-size:9px;white-space:nowrap;color:#75686b}
 .tab.active{background:#292123;color:#fff;border-color:#292123}
-.grid{padding:15px 14px 110px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid{padding:15px 14px 110px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .product{background:#fff;border-radius:17px;overflow:hidden;border:1px solid #e9e0d9;box-shadow:0 5px 18px #4b30200a;position:relative}
-.pic{height:205px;position:relative;display:grid;place-items:center;overflow:hidden;background:#eee8e2}
+.pic{height:225px;position:relative;display:grid;place-items:center;overflow:hidden;background:#eee8e2}
 .pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}.product:hover .pic img{transform:scale(1.035)}
 .save{position:absolute;right:10px;top:10px;width:30px;height:30px;border:0;background:#fffdfbd9;border-radius:50%;font-size:14px;z-index:2}
 .productInfo{padding:12px 12px 13px}
@@ -80,10 +80,9 @@ button{font:inherit;cursor:pointer}
 <div class="tabs">
   <button class="tab active" data-filter="all">All pieces</button>
   <button class="tab" data-filter="red">Red</button>
-  <button class="tab" data-filter="pink">Pink</button>
-  <button class="tab" data-filter="gold">Gold</button>
-  <button class="tab" data-filter="purple">Purple</button>
-  <button class="tab" data-filter="green">Green</button>
+  <button class="tab" data-filter="pastel">Pastel</button>
+  <button class="tab" data-filter="multicolour">Multicolour</button>
+  <button class="tab" data-filter="kundan">Kundan</button>
 </div>
 
 <main class="grid" id="grid"></main>
@@ -123,12 +122,10 @@ button{font:inherit;cursor:pointer}
 
 <script>
 const products=[
- {id:1,name:"Crimson Heritage",cat:"red",desc:"Deep red · traditional gold detailing",cls:"p1",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Indian%20bangles..jpg?width=900"},
- {id:2,name:"Rose Blush",cat:"pink",desc:"Pink · delicate festive stack",cls:"p2",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Beautiful%20Bangles%20%2862120435%29.jpeg?width=900"},
- {id:3,name:"Temple Gold",cat:"gold",desc:"Classic gold · temple-inspired design",cls:"p3",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Temple%20jewellery%20Bangle.png?width=900"},
- {id:4,name:"Royal Purple",cat:"purple",desc:"Purple · handcrafted traditional finish",cls:"p4",img:"https://commons.wikimedia.org/wiki/Special:FilePath/This%20handcrafted%20bangle%20reflects%20traditional%20Indian%20craftsmanship%2C%20likely%20inspired%20by%20Rajasthani%20or%20Gujarati%20silver%20jewellery%20traditions.jpg?width=900"},
- {id:5,name:"Classic Kangan",cat:"gold",desc:"Statement piece · ceremonial Indian bangle",cls:"p5",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Kangan%20-%20the%20Ceremonial%20bangle.jpg?width=900"},
- {id:6,name:"Lac Bazaar",cat:"green",desc:"Traditional lac · handmade character",cls:"p6",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Lac%20Bangle%20in%20final%20making.jpg?width=900"}
+ {id:1,name:"Red Gold Celebration",cat:"red",desc:"Red glass bangles · delicate gold detailing",cls:"p1",img:"https://leshya.com/cdn/shop/files/IMG_6405_1080x.jpg?v=1788422765"},
+ {id:2,name:"Pastel Luxe Stack",cat:"pastel",desc:"Pink, mint & gold · stone-studded mix",cls:"p2",img:"https://leshya.com/cdn/shop/files/IMG_6375_1080x.jpg?v=1788009523"},
+ {id:3,name:"Colour Box",cat:"multicolour",desc:"A colourful collection · pick your favourite shade",cls:"p3",img:"https://leshya.com/cdn/shop/files/DSC08190_copy_6_1080x.jpg?v=1789722410"},
+ {id:4,name:"Kundan Ruby",cat:"kundan",desc:"Statement kundan · ruby-toned centre stones",cls:"p4",img:"https://leshya.com/cdn/shop/files/IMG-4554_1080x.jpg?v=1762503242"}
 ];
 let cart=[];
 const $=s=>document.querySelector(s);
