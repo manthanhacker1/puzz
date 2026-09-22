@@ -37,7 +37,7 @@ button{font:inherit;cursor:pointer}
 .save{position:absolute;right:10px;top:10px;width:30px;height:30px;border:0;background:#fffdfbd9;border-radius:50%;font-size:14px;z-index:2}
 .productInfo{padding:12px 12px 13px}
 .name{font-family:"Playfair Display",serif;font-size:16px}.desc{font-size:8px;color:#938487;margin:4px 0 10px;line-height:1.5}
-.row{display:flex;justify-content:space-between;align-items:center}.price{font-size:11px;font-weight:600}
+.row{display:flex;justify-content:flex-end;align-items:center}.price{display:none}
 .add{border:0;background:#292123;color:#fff;border-radius:9px;padding:8px 10px;font-size:8px;letter-spacing:.6px;text-transform:uppercase}.add:active{transform:scale(.95)}
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:#292123;color:#fff;padding:11px 16px;border-radius:100px;font-size:9px;z-index:100;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
 .overlay{position:fixed;inset:0;background:#17111399;backdrop-filter:blur(5px);z-index:70;opacity:0;pointer-events:none;transition:.3s}.overlay.open{opacity:1;pointer-events:auto}
@@ -73,16 +73,17 @@ button{font:inherit;cursor:pointer}
 
 <header class="hero">
   <small>Vanshika's private collection</small>
-  <h1>Pick something<br>you'd actually wear.</h1>
-  <p>Curated especially for someone who apparently has very good taste in bangles.</p>
+  <h1>Pick your<br>favourites.</h1>
+  <p>No prices. No checkout payment. Just choose the ones you want me to keep aside for you.</p>
 </header>
 
 <div class="tabs">
   <button class="tab active" data-filter="all">All pieces</button>
-  <button class="tab" data-filter="gold">Gold</button>
+  <button class="tab" data-filter="red">Red</button>
   <button class="tab" data-filter="pink">Pink</button>
-  <button class="tab" data-filter="silver">Silver</button>
-  <button class="tab" data-filter="lavender">Lavender</button>
+  <button class="tab" data-filter="gold">Gold</button>
+  <button class="tab" data-filter="purple">Purple</button>
+  <button class="tab" data-filter="green">Green</button>
 </div>
 
 <main class="grid" id="grid"></main>
@@ -93,7 +94,7 @@ button{font:inherit;cursor:pointer}
   <div class="handle"></div>
   <div class="cartTitle"><h2>Your picks</h2><button class="close" id="closeCart">×</button></div>
   <div id="cartItems"></div>
-  <div class="total"><span>Little cart total</span><b id="total">₹0</b></div>
+  <div class="total"><span>Your selected pieces</span><b id="cartCountText">0 pieces</b></div>
   <button class="checkout" id="checkout">Continue to checkout →</button>
 </aside>
 
@@ -102,7 +103,7 @@ button{font:inherit;cursor:pointer}
   <div class="field"><label>Delivery to</label><div>Vanshika</div></div>
   <div class="field"><label>Payment</label><div>Obviously not charging you.</div></div>
   <div class="field"><label>Delivery</label><div>When we meet in person.</div></div>
-  <div class="note">Everything in your cart is a surprise order. The actual delivery address is currently classified as <b>“wherever we meet.”</b></div>
+  <div class="note">Your choices are being saved as a little surprise order. There is no payment here — the actual delivery address is currently classified as <b>“wherever we meet.”</b></div>
   <button class="place" id="place">Place the very real order</button>
 </section>
 
@@ -114,7 +115,7 @@ button{font:inherit;cursor:pointer}
     <p id="orderSummary"></p>
     <div class="orderLine"></div>
     <div class="surprise">Delivery: when we meet. ♡</div>
-    <p style="margin-top:10px">No shipping fee.<br>No address required.<br>Just one future handover.</p>
+    <p style="margin-top:10px">No payment required.<br>No address required.<br>Just one future handover.</p>
     <button class="continue" id="done">Keep this little secret</button>
   </div>
 </section>
@@ -122,16 +123,15 @@ button{font:inherit;cursor:pointer}
 
 <script>
 const products=[
- {id:1,name:"Champagne Glow",cat:"gold",price:1299,desc:"Warm gold · intricate traditional detail",cls:"p1",img:"https://www.viranijewelers.com/cdn/shop/products/Virani11-27-2022_21.jpg?v=1671516721"},
- {id:2,name:"Rose Blush",cat:"pink",price:899,desc:"Pink kundan · gold detailing",cls:"p2",img:"https://img.tatacliq.com/images/i25/1348Wx2000H/MP000000027406913_1348Wx2000H_202507180159111.jpeg"},
- {id:3,name:"Moonlight",cat:"silver",price:1099,desc:"Silver · classic stone-studded stack",cls:"p3",img:"https://www.viranijewelers.com/cdn/shop/products/Virani11-27-2022_21.jpg?v=1671516721"},
- {id:4,name:"Lavender Dream",cat:"lavender",price:949,desc:"Soft pastel · pearl and gold finish",cls:"p4",img:"https://images.squarespace-cdn.com/content/v1/56015302e4b01fb31d19b1a8/1678742290068-J14YLXELN64C9E2LYV70/IMG_20220816_115206.jpg"},
- {id:5,name:"Sunset Glass",cat:"gold",price:1199,desc:"Pink & gold · sparkling glass set",cls:"p5",img:"https://www.shreeparshavnathcreations.com/uploads/category/colourful-glass-bangle-set.webp"},
- {id:6,name:"Royal Blue",cat:"silver",price:999,desc:"Blue silk · pearl & gold accents",cls:"p6",img:"https://choodiyan.com/cdn/shop/products/image_e2b598b4-2910-42c1-9f74-e9c96f52844c_5000x.jpg?v=1625667525"}
+ {id:1,name:"Crimson Heritage",cat:"red",desc:"Deep red · traditional gold detailing",cls:"p1",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Indian%20bangles..jpg?width=900"},
+ {id:2,name:"Rose Blush",cat:"pink",desc:"Pink · delicate festive stack",cls:"p2",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Beautiful%20Bangles%20%2862120435%29.jpeg?width=900"},
+ {id:3,name:"Temple Gold",cat:"gold",desc:"Classic gold · temple-inspired design",cls:"p3",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Temple%20jewellery%20Bangle.png?width=900"},
+ {id:4,name:"Royal Purple",cat:"purple",desc:"Purple · handcrafted traditional finish",cls:"p4",img:"https://commons.wikimedia.org/wiki/Special:FilePath/This%20handcrafted%20bangle%20reflects%20traditional%20Indian%20craftsmanship%2C%20likely%20inspired%20by%20Rajasthani%20or%20Gujarati%20silver%20jewellery%20traditions.jpg?width=900"},
+ {id:5,name:"Classic Kangan",cat:"gold",desc:"Statement piece · ceremonial Indian bangle",cls:"p5",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Kangan%20-%20the%20Ceremonial%20bangle.jpg?width=900"},
+ {id:6,name:"Lac Bazaar",cat:"green",desc:"Traditional lac · handmade character",cls:"p6",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Lac%20Bangle%20in%20final%20making.jpg?width=900"}
 ];
 let cart=[];
 const $=s=>document.querySelector(s);
-function money(n){return "₹"+n.toLocaleString("en-IN")}
 function renderProducts(filter="all"){
  $("#grid").innerHTML=products.filter(p=>filter==="all"||p.cat===filter).map(p=>`
  <article class="product">
@@ -142,7 +142,7 @@ function renderProducts(filter="all"){
   <div class="productInfo">
    <div class="name">${p.name}</div>
    <div class="desc">${p.desc}</div>
-   <div class="row"><span class="price">${money(p.price)}</span><button class="add" data-id="${p.id}">Add to bag</button></div>
+   <div class="row"><button class="add" data-id="${p.id}">Add to bag</button></div>
   </div>
  </article>`).join("");
  document.querySelectorAll(".add").forEach(b=>b.onclick=()=>add(+b.dataset.id));
@@ -158,11 +158,11 @@ function updateCart(){
  $("#cartItems").innerHTML=cart.length?cart.map(p=>`
  <div class="cartItem">
   <div class="mini"><img src="${p.img}" alt="${p.name}"></div>
-  <div class="ciInfo"><div class="ciName">${p.name}</div><div class="ciPrice">${money(p.price)}</div>
+  <div class="ciInfo"><div class="ciName">${p.name}</div>
    <div class="qty"><button onclick="change(${p.id},-1)">−</button><span>${p.qty}</span><button onclick="change(${p.id},1)">+</button></div>
   </div>
  </div>`).join(""):`<div class="empty">Your bag is empty.<br>Go find something pretty.</div>`;
- const total=cart.reduce((a,b)=>a+b.price*b.qty,0);$("#total").textContent=money(total);
+ const total=count;$("#cartCountText").textContent=total+" piece"+(total===1?"":"s");
  $("#checkout").style.opacity=cart.length?1:.4;
 }
 window.change=(id,n)=>{const x=cart.find(p=>p.id===id);if(!x)return;x.qty+=n;if(x.qty<=0)cart=cart.filter(p=>p.id!==id);updateCart()};
@@ -176,7 +176,7 @@ $("#checkout").onclick=()=>{if(!cart.length){toast("Add at least one bangle firs
 $("#back").onclick=()=>$("#checkoutPanel").classList.remove("open");
 $("#place").onclick=()=>{
  const names=cart.map(x=>x.name+(x.qty>1?" ×"+x.qty:"")).join(" · ");
- $("#orderSummary").innerHTML=`You picked <b>${names}</b>.<br><br>Your choices have been saved to the imaginary order system.`;
+ $("#orderSummary").innerHTML=`You picked <b>${names}</b>.<br><br>Your selected bangles have been saved to the imaginary order system.`;
  $("#checkoutPanel").classList.remove("open");$("#success").classList.add("open");
  for(let i=0;i<35;i++){const p=document.createElement("i");p.style.position="fixed";p.style.left="50%";p.style.top="45%";p.style.width="4px";p.style.height="4px";p.style.borderRadius="50%";p.style.background=i%2?"#dfb46d":"#bd718c";p.style.zIndex=200;const a=Math.random()*Math.PI*2,d=50+Math.random()*220;p.animate([{transform:"translate(0,0)",opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px)`,opacity:0}],{duration:1000+Math.random()*700,easing:"ease-out"});document.body.appendChild(p);setTimeout(()=>p.remove(),1800)}
 };
